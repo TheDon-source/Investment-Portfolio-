@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sam Tianli Dong — Investment Research</title>
+  <meta name="description" content="Independent equity research across global small and mid-cap equities. MFin, Schulich School of Business. CFA Level I Candidate.">
+  <meta property="og:title" content="Sam Tianli Dong — Investment Research">
+  <meta property="og:description" content="Independent fundamental equity research across US, Japanese, and Chinese markets.">
+  <meta property="og:type" content="website">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0A1628;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,164,74,0.12);padding:0 28px;display:flex;justify-content:space-between;align-items:center;height:54px}
+    .nav-brand{font-family:'Playfair Display',Georgia,serif;font-size:16px;color:#F0F4F8;font-weight:600;letter-spacing:-.01em}
+    .nav-links{display:flex;gap:22px}
+    .nav-link{font-size:10px;font-weight:700;letter-spacing:.1em;color:#2A3B50;text-decoration:none;cursor:pointer;transition:color .15s;background:none;border:none}
+    .nav-link:hover{color:#C4A44A}
+    /* HERO */
+    .hero{max-width:900px;margin:0 auto;padding:52px 28px 36px;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .eyebrow{font-size:9px;letter-spacing:.2em;color:#C4A44A;font-weight:700;margin-bottom:10px}
+    .hero-name{font-family:'Playfair Display',Georgia,serif;font-size:38px;font-weight:600;color:#F0F4F8;line-height:1.1;margin-bottom:6px}
+    .hero-title{font-size:12px;color:#3A5070;margin-bottom:18px}
+    .hero-desc{font-size:13px;color:#6A7B90;line-height:1.8;max-width:580px}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+    .tag{font-size:9px;font-weight:700;letter-spacing:.08em;padding:4px 9px;border-radius:4px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:#3A5070}
+    .hero-stats{display:flex;gap:32px;margin-top:26px;flex-wrap:wrap}
+    .stat-n{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;color:#C4A44A;line-height:1}
+    .stat-l{font-size:8px;color:#1A2B3C;margin-top:3px;letter-spacing:.12em}
+    /* TABS */
+    .tabs-wrap{max-width:900px;margin:0 auto;padding:0 28px}
+    .tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .tab{background:none;border:none;cursor:pointer;padding:12px 14px;font-size:10px;font-weight:700;letter-spacing:.07em;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+    .tab.active{color:#C4A44A;border-bottom-color:#C4A44A}
+    .tab:not(.active){color:#2A3B50}
+    /* GRID */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;padding:16px 28px 28px;max-width:900px;margin:0 auto}
+    /* CARD */
+    .card{background:#0F2040;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:15px;display:flex;flex-direction:column;gap:9px}
+    .card-top{display:flex;justify-content:space-between;align-items:flex-start}
+    .ticker{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.05em}
+    .exch-badge{font-size:8px;color:#2A3B50;background:rgba(255,255,255,0.04);padding:1px 5px;border-radius:3px;letter-spacing:.07em}
+    .company{font-size:10px;color:#4A6080;margin-top:2px}
+    .status-badge{font-size:8px;font-weight:700;letter-spacing:.09em;padding:3px 7px;border-radius:4px;white-space:nowrap}
+    .sparkrow{display:flex;align-items:center;gap:8px}
+    .sparkwrap{flex:1;height:48px;position:relative}
+    .ret{text-align:right;min-width:60px}
+    .ret-n{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;line-height:1}
+    .ret-l{font-size:8px;color:#2A3B50;margin-top:2px}
+    .pricerow{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);padding:7px 0}
+    .pl{font-size:8px;color:#2A3B50;margin-bottom:2px;letter-spacing:.06em}
+    .pv{font-family:'JetBrains Mono',monospace;font-size:12px;color:#CBD5E0}
+    .tv{font-family:'JetBrains Mono',monospace;font-size:12px;color:#C4A44A}
+    .thesis{font-size:10px;color:#6A7B90;line-height:1.7}
+    .kstats{display:flex;flex-wrap:wrap;gap:4px}
+    .ks{font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,0.03);color:#3A5070}
+    .ks-v{color:#6A8CB0;font-weight:600}
+    .memo-ref{display:flex;align-items:center;gap:6px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);margin-top:2px}
+    .memo-name{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3A5070;letter-spacing:.02em}
+    /* COMPARISON */
+    .compare-outer{max-width:900px;margin:0 auto;padding:0 28px 28px}
+    .compare{background:#0F2040;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:18px}
+    .compare-title{font-size:10px;font-weight:700;color:#7A8BA8;letter-spacing:.09em;margin-bottom:3px}
+    .compare-sub{font-size:9px;color:#2A3B50;margin-bottom:10px}
+    .legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
+    .legend-item{display:flex;align-items:center;gap:5px;font-size:9px}
+    .legend-line{width:16px;height:2px;border-radius:1px}
+    .chart-wrap{position:relative;height:185px}
+    .chart-foot{font-size:9px;color:#1A2B3C;margin-top:8px;text-align:right}
+    /* ABOUT */
+    .about{max-width:900px;margin:0 auto;padding:32px 28px;border-top:1px solid rgba(255,255,255,0.05)}
+    .about-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:#C4A44A;margin-bottom:10px}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .about-item{display:flex;gap:9px;margin-bottom:8px;align-items:flex-start}
+    .about-dot{width:4px;height:4px;border-radius:50%;background:#C4A44A;margin-top:5px;flex-shrink:0}
+    .about-text{font-size:11px;color:#4A6080;line-height:1.8}
+    .about-philosophy{font-size:11px;color:#4A6080;line-height:1.85}
+    /* FOOTER */
+    footer{border-top:1px solid rgba(255,255,255,0.05);padding:22px 28px;text-align:center}
+    .disc{font-size:9px;color:#1A2B3C;line-height:1.7;max-width:620px;margin:0 auto}
+    @media(max-width:640px){
+      .about-grid{grid-template-columns:1fr}
+      .hero-name{font-size:28px}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">Sam Tianli Dong</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="document.getElementById('coverage').scrollIntoView({behavior:'smooth'})">COVERAGE</button>
+    <button class="nav-link" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">ABOUT</button>
+    <a class="nav-link" href="https://linkedin.com/in/YOUR-LINKEDIN-HERE" target="_blank">LINKEDIN ↗</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">INVESTMENT RESEARCH PORTFOLIO</div>
+  <h1 class="hero-name">Sam Tianli Dong</h1>
+  <div class="hero-title">MFin Candidate — Schulich School of Business, York University &nbsp;·&nbsp; CFA Level I &nbsp;·&nbsp; Toronto</div>
+  <p class="hero-desc">Independent bottom-up equity research across global small and mid-cap equities. Mathematical foundation applied to fundamental business analysis — unit economics, business model quality, and the gap between price and intrinsic value.</p>
+  <div class="hero-tags">
+    <span class="tag">FUNDAMENTAL RESEARCH</span>
+    <span class="tag">PYTHON · QUANTITATIVE</span>
+    <span class="tag">US · JAPAN · CHINA</span>
+    <span class="tag">SMALL & MID-CAP</span>
+    <span class="tag">BUY-SIDE ORIENTED</span>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-n">6</div><div class="stat-l">COMPANIES</div></div>
+    <div><div class="stat-n">2</div><div class="stat-l">ACTIVE MEMOS</div></div>
+    <div><div class="stat-n">3</div><div class="stat-l">MARKETS</div></div>
+    <div><div class="stat-n">5</div><div class="stat-l">SECTORS</div></div>
+  </div>
+</section>
+
+<section id="coverage">
+  <div class="tabs-wrap">
+    <div class="tabs" id="tabBar">
+      <button class="tab active" data-filter="all">All Coverage &nbsp;(6)</button>
+      <button class="tab" data-filter="memo">Active Memos &nbsp;(2)</button>
+      <button class="tab" data-filter="research">Research &nbsp;(4)</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div class="compare-outer">
+  <div class="compare">
+    <div class="compare-title">RELATIVE PERFORMANCE</div>
+    <div class="compare-sub">All holdings indexed to 100 — July 2025 to June 2026 &nbsp;|&nbsp; Hover for detail</div>
+    <div class="legend" id="legend"></div>
+    <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
+    <div class="chart-foot">Prices approximate. For informational purposes only. Last updated June 2026.</div>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div style="font-size:9px;font-weight:700;letter-spacing:.15em;color:#2A3B50;margin-bottom:20px">ABOUT</div>
+  <div class="about-grid">
+    <div>
+      <div class="about-label">BACKGROUND</div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Master of Finance — Schulich School of Business, York University</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">CFA Level I Candidate</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Former Capital Markets Analyst — institutional forecasting and valuation models supporting capital raises</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Mathematics undergraduate — Python applied to quantitative financial modelling and correlation analysis</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Previous experience in retail banking (TD Canada Trust) — credit dynamics, financial instruments, customer lending</div></div>
+    </div>
+    <div>
+      <div class="about-label">INVESTMENT PHILOSOPHY</div>
+      <div class="about-philosophy">Bottom-up fundamental analysis anchored in unit economics — not macro assumptions. Research begins with the question of how a business actually makes money, how durable that advantage is, and whether the current price reflects a misunderstanding of the answer.<br><br>Coverage gravitates toward quality businesses temporarily mispriced by narrative: companies where the market is asking the wrong question, and where the right question produces a differentiated view on terminal value.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="disc">This portfolio is for informational purposes only and does not constitute investment advice or a solicitation to buy or sell any security. All prices and performance figures are approximate. Past performance does not guarantee future results. Investment involves risk, including possible loss of principal.</p>
+</footer>
+
+<script>
+const MONTHS=["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"];
+const STOCKS=[
+  {ticker:"GNTX",name:"Gentex Corporation",exchange:"NASDAQ",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Auto Electronics",status:"memo",color:"#4A9DE0",memo:"GNTX_Investment_Memo_Sam_Dong.docx",thesis:"Digital cockpit infrastructure platform mispriced as a cyclical auto supplier. The EV transition structurally expands Gentex's addressable surface area — driver monitoring mandates, dimmable panoramic roofs, and larger glass surfaces increase content per vehicle. Current de-rating on EV disruption fears is precisely the entry point the thesis anticipates.",price:25.00,target:47,upsideLabel:"+88%",keyStats:[["FDM penetration","~7%"],["Target penetration","15%"],["Core gross margin","34.7%"],["Rev uplift per 1%","~$62M"]],prices:[35,34,32,30,28,27,26,25,24,25,25,25]},
+  {ticker:"WINA",name:"Winmark Corporation",exchange:"NASDAQ",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Franchise / Consumer",status:"memo",color:"#C4A44A",memo:"WINA_Investment_Memo_Sam_Dong.docx",thesis:"Asset-light royalty engine masquerading as a retailer. 98% franchise renewal and near-100% FCF conversion. 2,800+ available territories against 1,378 operating — the whitespace is an unpriced call option embedded within a conservatively valued royalty stream.",price:370,target:382,upsideLabel:"Fair Value",keyStats:[["Royalty per franchise","$54K/yr"],["Renewal rate","98%"],["Net margin","~48%"],["Available territories","2,800+"]],prices:[480,490,475,465,448,435,418,402,392,378,362,370]},
+  {ticker:"300750",name:"Contemporary Amperex Technology",exchange:"SZSE",flag:"🇨🇳",currency:"CNY",sym:"¥",sector:"EV Batteries",status:"research",color:"#4A9B8E",thesis:"Global EV battery market leader with 39% installed capacity share. Vertical integration insulates margins from lithium price volatility — tested via Python correlation analysis. Energy storage for data center applications is a second structural growth vector the market has not yet fully priced.",price:381,target:560,upsideLabel:"+47%",keyStats:[["Global market share","39%"],["52-week range","¥249–469"],["Vertical integration","Structural hedge"],["Analyst target","¥560 CNY"]],prices:[249,268,285,295,308,318,335,355,390,435,468,381]},
+  {ticker:"6098.T",name:"Recruit Holdings",exchange:"TSE",flag:"🇯🇵",currency:"JPY",sym:"¥",sector:"HR Technology",status:"research",color:"#E07A5F",thesis:"Owner of Indeed and Glassdoor — two of three globally scaled employment platforms. FY2025 net profit rose 22%, HR Technology margins expanded 5pp. AI-driven hiring automation is a structural tailwind for a network-effects platform with deep Japan optionality.",price:11180,target:null,upsideLabel:"Monitor",keyStats:[["FY2025 net profit growth","+22%"],["HR Tech margin expansion","+5pp"],["52-week range","¥6,040–11,755"],["Status","Monitor"]],prices:[6040,6300,6650,7100,7400,7600,7900,8200,8600,9100,10800,11180]},
+  {ticker:"8031.T",name:"Mitsui & Co.",exchange:"TSE",flag:"🇯🇵",currency:"JPY",sym:"¥",sector:"Diversified / Trading",status:"research",color:"#9B8EC4",thesis:"Japanese sogo shosha with a 155-year operational track record. Diversified energy, minerals, and infrastructure portfolio with owner-oriented capital discipline. Hit ATH ¥6,675 in April 2026 — current pullback may represent a compelling re-entry point.",price:4446,target:6311,upsideLabel:"+42%",keyStats:[["1-year performance","+53.4%"],["ATH (Apr 2026)","¥6,675"],["Dividend yield","2.59%"],["P/E","15.3x"]],prices:[2900,3100,3500,3800,4200,4500,4800,5200,5800,6200,5200,4446]},
+  {ticker:"KNSL",name:"Kinsale Capital Group",exchange:"NYSE",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Specialty Insurance",status:"research",color:"#7BC4A0",thesis:"Best-in-class E&S lines underwriter consistently running combined ratios well below industry peers. Technology-enabled cost structure creates durable underwriting margin that compounds through the cycle. The business earns its returns through discipline, not leverage.",price:428,target:null,upsideLabel:"Monitor",keyStats:[["Segment","E&S Lines"],["Moat","Underwriting discipline"],["52-week return","+27.8%"],["Status","Monitor"]],prices:[335,350,365,382,398,412,428,445,460,448,438,428]}
+];
+
+function calcRet(p){return((p[p.length-1]-p[0])/p[0]*100)}
+function norm(p){return p.map(v=>+((v/p[0]*100).toFixed(2)))}
+
+function card(s){
+  const ret=calcRet(s.prices),pos=ret>=0,rc=pos?'#34D399':'#F87171',memo=s.status==='memo';
+  const tb=memo?'#C4A44A':s.color,bb=memo?'rgba(196,164,74,0.12)':'rgba(74,155,142,0.12)',bc=memo?'#C4A44A':'#4A9B8E',bbd=memo?'rgba(196,164,74,0.25)':'rgba(74,155,142,0.25)',bl=memo?'ACTIVE MEMO':'RESEARCH';
+  const fp=s.currency==='USD'?`$${s.price.toLocaleString()}`:`${s.sym}${s.price.toLocaleString()} ${s.currency}`;
+  const ft=s.target?(s.currency==='USD'?`$${s.target.toLocaleString()}`:`${s.sym}${s.target.toLocaleString()} ${s.currency}`):'';
+  const cid='sp_'+s.ticker.replace(/\./g,'_');
+  const ks=s.keyStats.map(([l,v])=>`<div class="ks"><span>${l}: </span><span class="ks-v">${v}</span></div>`).join('');
+  const mr=s.memo?`<div class="memo-ref"><span style="font-size:12px">📄</span><span class="memo-name">${s.memo}</span></div>`:'';
+  return `<div class="card" style="border-top:2px solid ${tb}" data-status="${s.status}">
+    <div class="card-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><span style="font-size:12px">${s.flag}</span><span class="ticker" style="color:${s.color}">${s.ticker}</span><span class="exch-badge">${s.exchange}</span></div>
+        <div class="company">${s.name}</div>
+      </div>
+      <div class="status-badge" style="background:${bb};color:${bc};border:1px solid ${bbd}">${bl}</div>
+    </div>
+    <div class="sparkrow">
+      <div class="sparkwrap"><canvas id="${cid}"></canvas></div>
+      <div class="ret"><div class="ret-n" style="color:${rc}">${pos?'+':''}${ret.toFixed(1)}%</div><div class="ret-l">12M RETURN</div></div>
+    </div>
+    <div class="pricerow">
+      <div><div class="pl">CURRENT</div><div class="pv">${fp}</div></div>
+      ${s.target?`<div style="text-align:center"><div class="pl">TARGET</div><div class="tv">${ft}</div></div>`:''}
+      <div style="text-align:right"><div class="pl">UPSIDE</div><div class="tv">${s.upsideLabel}</div></div>
+    </div>
+    <p class="thesis">${s.thesis}</p>
+    <div class="kstats">${ks}</div>
+    ${mr}
+  </div>`;
+}
+
+function spark(s){
+  const el=document.getElementById('sp_'+s.ticker.replace(/\./g,'_'));if(!el)return;
+  const pos=calcRet(s.prices)>=0,lc=pos?'#34D399':'#F87171';
+  new Chart(el,{type:'line',data:{labels:MONTHS,datasets:[{data:norm(s.prices),borderColor:lc,borderWidth:1.5,fill:true,backgroundColor:ctx=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,48);g.addColorStop(0,pos?'rgba(52,211,153,0.2)':'rgba(248,113,113,0.2)');g.addColorStop(1,'rgba(0,0,0,0)');return g},pointRadius:0,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+}
+
+function compare(){
+  const el=document.getElementById('compareChart');if(!el)return;
+  new Chart(el,{type:'line',data:{labels:MONTHS,datasets:STOCKS.map(s=>({label:s.ticker,data:norm(s.prices),borderColor:s.color,borderWidth:1.5,pointRadius:0,tension:0.3,fill:false}))},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#0A1628',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#7A8BA8',bodyColor:'#E2E8F0',padding:8,callbacks:{label:c=>{const v=(c.raw-100).toFixed(1);return ` ${c.dataset.label}: ${v>=0?'+':''}${v}%`}}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#2A3B50',font:{size:9},maxRotation:0}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#2A3B50',font:{size:9},callback:v=>v===100?'Base':v>100?`+${(v-100).toFixed(0)}%`:`${(v-100).toFixed(0)}%`}}}}});
+}
+
+function legend(){
+  document.getElementById('legend').innerHTML=STOCKS.map(s=>{const r=calcRet(s.prices),rc=r>=0?'#34D399':'#F87171';return`<div class="legend-item"><div class="legend-line" style="background:${s.color}"></div><span style="color:#4A6080">${s.ticker}</span><span style="color:${rc};font-weight:700">${r>=0?'+':''}${r.toFixed(1)}%</span></div>`}).join('');
+}
+
+let filter='all';
+function render(){
+  const v=filter==='all'?STOCKS:filter==='memo'?STOCKS.filter(s=>s.status==='memo'):STOCKS.filter(s=>s.status==='research');
+  document.getElementById('grid').innerHTML=v.map(card).join('');
+  v.forEach(spark);
+}
+
+document.getElementById('tabBar').addEventListener('click',e=>{
+  const b=e.target.closest('.tab');if(!b)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  b.classList.add('active');filter=b.dataset.filter;render();
+});
+
+render();legend();compare();
+</script>
+</body>
+</html>
