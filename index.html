@@ -1,241 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sam Tianli Dong — Investment Research</title>
-  <meta name="description" content="Independent equity research across global small and mid-cap equities. MFin, Schulich School of Business. CFA Level I Candidate.">
-  <meta property="og:title" content="Sam Tianli Dong — Investment Research">
-  <meta property="og:description" content="Independent fundamental equity research across US, Japanese, and Chinese markets.">
-  <meta property="og:type" content="website">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:#0A1628;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,164,74,0.12);padding:0 28px;display:flex;justify-content:space-between;align-items:center;height:54px}
-    .nav-brand{font-family:'Playfair Display',Georgia,serif;font-size:16px;color:#F0F4F8;font-weight:600;letter-spacing:-.01em}
-    .nav-links{display:flex;gap:22px}
-    .nav-link{font-size:10px;font-weight:700;letter-spacing:.1em;color:#2A3B50;text-decoration:none;cursor:pointer;transition:color .15s;background:none;border:none}
-    .nav-link:hover{color:#C4A44A}
-    /* HERO */
-    .hero{max-width:900px;margin:0 auto;padding:52px 28px 36px;border-bottom:1px solid rgba(255,255,255,0.05)}
-    .eyebrow{font-size:9px;letter-spacing:.2em;color:#C4A44A;font-weight:700;margin-bottom:10px}
-    .hero-name{font-family:'Playfair Display',Georgia,serif;font-size:38px;font-weight:600;color:#F0F4F8;line-height:1.1;margin-bottom:6px}
-    .hero-title{font-size:12px;color:#3A5070;margin-bottom:18px}
-    .hero-desc{font-size:13px;color:#6A7B90;line-height:1.8;max-width:580px}
-    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
-    .tag{font-size:9px;font-weight:700;letter-spacing:.08em;padding:4px 9px;border-radius:4px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:#3A5070}
-    .hero-stats{display:flex;gap:32px;margin-top:26px;flex-wrap:wrap}
-    .stat-n{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;color:#C4A44A;line-height:1}
-    .stat-l{font-size:8px;color:#1A2B3C;margin-top:3px;letter-spacing:.12em}
-    /* TABS */
-    .tabs-wrap{max-width:900px;margin:0 auto;padding:0 28px}
-    .tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.05)}
-    .tab{background:none;border:none;cursor:pointer;padding:12px 14px;font-size:10px;font-weight:700;letter-spacing:.07em;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
-    .tab.active{color:#C4A44A;border-bottom-color:#C4A44A}
-    .tab:not(.active){color:#2A3B50}
-    /* GRID */
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;padding:16px 28px 28px;max-width:900px;margin:0 auto}
-    /* CARD */
-    .card{background:#0F2040;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:15px;display:flex;flex-direction:column;gap:9px}
-    .card-top{display:flex;justify-content:space-between;align-items:flex-start}
-    .ticker{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.05em}
-    .exch-badge{font-size:8px;color:#2A3B50;background:rgba(255,255,255,0.04);padding:1px 5px;border-radius:3px;letter-spacing:.07em}
-    .company{font-size:10px;color:#4A6080;margin-top:2px}
-    .status-badge{font-size:8px;font-weight:700;letter-spacing:.09em;padding:3px 7px;border-radius:4px;white-space:nowrap}
-    .sparkrow{display:flex;align-items:center;gap:8px}
-    .sparkwrap{flex:1;height:48px;position:relative}
-    .ret{text-align:right;min-width:60px}
-    .ret-n{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;line-height:1}
-    .ret-l{font-size:8px;color:#2A3B50;margin-top:2px}
-    .pricerow{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);padding:7px 0}
-    .pl{font-size:8px;color:#2A3B50;margin-bottom:2px;letter-spacing:.06em}
-    .pv{font-family:'JetBrains Mono',monospace;font-size:12px;color:#CBD5E0}
-    .tv{font-family:'JetBrains Mono',monospace;font-size:12px;color:#C4A44A}
-    .thesis{font-size:10px;color:#6A7B90;line-height:1.7}
-    .kstats{display:flex;flex-wrap:wrap;gap:4px}
-    .ks{font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,0.03);color:#3A5070}
-    .ks-v{color:#6A8CB0;font-weight:600}
-    .memo-ref{display:flex;align-items:center;gap:6px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);margin-top:2px}
-    .memo-name{font-family:'JetBrains Mono',monospace;font-size:8px;color:#3A5070;letter-spacing:.02em}
-    /* COMPARISON */
-    .compare-outer{max-width:900px;margin:0 auto;padding:0 28px 28px}
-    .compare{background:#0F2040;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:18px}
-    .compare-title{font-size:10px;font-weight:700;color:#7A8BA8;letter-spacing:.09em;margin-bottom:3px}
-    .compare-sub{font-size:9px;color:#2A3B50;margin-bottom:10px}
-    .legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
-    .legend-item{display:flex;align-items:center;gap:5px;font-size:9px}
-    .legend-line{width:16px;height:2px;border-radius:1px}
-    .chart-wrap{position:relative;height:185px}
-    .chart-foot{font-size:9px;color:#1A2B3C;margin-top:8px;text-align:right}
-    /* ABOUT */
-    .about{max-width:900px;margin:0 auto;padding:32px 28px;border-top:1px solid rgba(255,255,255,0.05)}
-    .about-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:#C4A44A;margin-bottom:10px}
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-    .about-item{display:flex;gap:9px;margin-bottom:8px;align-items:flex-start}
-    .about-dot{width:4px;height:4px;border-radius:50%;background:#C4A44A;margin-top:5px;flex-shrink:0}
-    .about-text{font-size:11px;color:#4A6080;line-height:1.8}
-    .about-philosophy{font-size:11px;color:#4A6080;line-height:1.85}
-    /* FOOTER */
-    footer{border-top:1px solid rgba(255,255,255,0.05);padding:22px 28px;text-align:center}
-    .disc{font-size:9px;color:#1A2B3C;line-height:1.7;max-width:620px;margin:0 auto}
-    @media(max-width:640px){
-      .about-grid{grid-template-columns:1fr}
-      .hero-name{font-size:28px}
-      .grid{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sam Tianli Dong — Investment Research</title>
+<meta name="description" content="Independent equity research. MBA & MFin, Schulich School of Business. CFA Level I Candidate.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:#1B2A4A;padding:0 32px;display:flex;justify-content:space-between;align-items:center;height:56px;box-shadow:0 1px 12px rgba(0,0,0,0.18)}
+.nav-brand{font-family:"Playfair Display",serif;font-size:17px;color:#F5F0E8;font-weight:600;letter-spacing:-.01em}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-size:10px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,0.45);text-decoration:none;cursor:pointer;background:none;border:none;transition:color .15s}
+.nav-link:hover{color:#C4A44A}
+/* HERO */
+.hero{max-width:980px;margin:0 auto;padding:52px 32px 36px}
+.eyebrow{font-size:9px;letter-spacing:.22em;color:#8B6914;font-weight:700;margin-bottom:12px;text-transform:uppercase}
+.hero-name{font-family:"Playfair Display",serif;font-size:42px;font-weight:700;color:#1B2A4A;line-height:1.05;margin-bottom:8px}
+.hero-title{font-size:13px;color:#6B7280;margin-bottom:18px;font-weight:400}
+.hero-desc{font-size:14px;color:#374151;line-height:1.8;max-width:600px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.tag{font-size:9px;font-weight:600;letter-spacing:.08em;padding:5px 10px;border-radius:20px;background:#FFFFFF;border:1px solid #D5CFC7;color:#374151;text-transform:uppercase}
+.hero-stats{display:flex;gap:36px;margin-top:28px;flex-wrap:wrap}
+.stat-n{font-family:"JetBrains Mono",monospace;font-size:28px;font-weight:600;color:#1B2A4A;line-height:1}
+.stat-l{font-size:8px;color:#9CA3AF;margin-top:4px;letter-spacing:.12em;text-transform:uppercase}
+/* TABS */
+.tabs-wrap{max-width:980px;margin:0 auto;padding:0 32px}
+.tabs{display:flex;border-bottom:2px solid #D5CFC7}
+.tab{background:none;border:none;cursor:pointer;padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:.07em;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;text-transform:uppercase;color:#9CA3AF}
+.tab.on{color:#1B2A4A;border-bottom-color:#8B6914}
+.tab:not(.on):hover{color:#374151}
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px;padding:18px 32px 32px;max-width:980px;margin:0 auto}
+/* CARD */
+.card{background:#FFFFFF;border:1px solid #DDD8CF;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.tkr{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.04em}
+.xbadge{font-size:7px;color:#9CA3AF;background:#F3F4F6;padding:2px 5px;border-radius:3px;letter-spacing:.06em;font-weight:600}
+.cname{font-size:10px;color:#6B7280;margin-top:2px;font-weight:400}
+.sbadge{font-size:7px;font-weight:700;letter-spacing:.08em;padding:3px 8px;border-radius:12px;white-space:nowrap}
+.sparkrow{display:flex;align-items:center;gap:10px}
+.sparkwrap{flex:1;height:46px}
+.ret{text-align:right;min-width:62px}
+.ret-n{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:700;line-height:1}
+.ret-l{font-size:7px;color:#9CA3AF;margin-top:2px;letter-spacing:.06em;text-transform:uppercase}
+.pricerow{display:flex;justify-content:space-between;border-top:1px solid #F3F4F6;border-bottom:1px solid #F3F4F6;padding:8px 0}
+.pl{font-size:7px;color:#9CA3AF;margin-bottom:2px;letter-spacing:.08em;text-transform:uppercase}
+.pv{font-family:"JetBrains Mono",monospace;font-size:12px;color:#374151;font-weight:500}
+.tv{font-family:"JetBrains Mono",monospace;font-size:12px;color:#8B6914;font-weight:600}
+.thesis{font-size:10px;color:#6B7280;line-height:1.7;font-weight:400}
+.kstats{display:flex;flex-wrap:wrap;gap:5px}
+.ks{font-size:8px;padding:3px 7px;border-radius:5px;background:#F9FAFB;border:1px solid #E5E7EB;color:#6B7280}
+.ks-v{color:#374151;font-weight:600}
+.memo-ref{display:flex;align-items:center;gap:5px;padding-top:7px;border-top:1px solid #F3F4F6}
+.memo-name{font-family:"JetBrains Mono",monospace;font-size:7px;color:#9CA3AF;letter-spacing:.02em}
+/* COMPARE */
+.comp-outer{max-width:980px;margin:0 auto;padding:0 32px 36px}
+.comp{background:#FFFFFF;border:1px solid #DDD8CF;border-radius:12px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.comp-title{font-size:10px;font-weight:700;color:#374151;letter-spacing:.1em;margin-bottom:3px;text-transform:uppercase}
+.comp-sub{font-size:9px;color:#9CA3AF;margin-bottom:14px}
+.comp-legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.cl-item{display:flex;align-items:center;gap:6px;font-size:9px;color:#6B7280;font-weight:500}
+.cl-solid{width:18px;height:2px;border-radius:1px}
+.cl-dashed{width:18px;height:0;border-top:2px dashed #8B6914}
+.chart-wrap{position:relative;height:210px}
+.comp-stats{display:flex;gap:28px;flex-wrap:wrap;padding-top:14px;margin-top:14px;border-top:1px solid #F3F4F6}
+.cs-label{font-size:8px;color:#9CA3AF;margin-bottom:4px;letter-spacing:.08em;text-transform:uppercase}
+.cs-val{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:700}
+.comp-foot{font-size:8px;color:#D1D5DB;text-align:right;margin-top:10px}
+/* ABOUT */
+.about{max-width:980px;margin:0 auto;padding:32px 32px 40px;border-top:2px solid #D5CFC7}
+.about-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:#8B6914;margin-bottom:12px;text-transform:uppercase}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.about-item{display:flex;gap:10px;margin-bottom:10px}
+.about-dot{width:5px;height:5px;border-radius:50%;background:#8B6914;margin-top:7px;flex-shrink:0}
+.about-text{font-size:12px;color:#374151;line-height:1.8}
+footer{background:#1B2A4A;padding:24px 32px;text-align:center}
+.disc{font-size:9px;color:rgba(255,255,255,0.25);line-height:1.7;max-width:640px;margin:0 auto}
+@media(max-width:640px){.about-grid{grid-template-columns:1fr}.hero-name{font-size:30px}.grid{grid-template-columns:1fr}.hero-stats{gap:20px}}
+</style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-brand">Sam Tianli Dong</div>
   <div class="nav-links">
     <button class="nav-link" onclick="document.getElementById('coverage').scrollIntoView({behavior:'smooth'})">COVERAGE</button>
     <button class="nav-link" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">ABOUT</button>
-    <a class="nav-link" href="https://linkedin.com/in/YOUR-LINKEDIN-HERE" target="_blank">LINKEDIN ↗</a>
+    <a class="nav-link" href="https://linkedin.com/in/YOUR-LINKEDIN" target="_blank">LINKEDIN &#x2197;</a>
   </div>
 </nav>
-
 <section class="hero">
-  <div class="eyebrow">INVESTMENT RESEARCH PORTFOLIO</div>
+  <div class="eyebrow">Investment Research Portfolio</div>
   <h1 class="hero-name">Sam Tianli Dong</h1>
-  <div class="hero-title">MFin Candidate — Schulich School of Business, York University &nbsp;·&nbsp; CFA Level I &nbsp;·&nbsp; Toronto</div>
-  <p class="hero-desc">Independent bottom-up equity research across global small and mid-cap equities. Mathematical foundation applied to fundamental business analysis — unit economics, business model quality, and the gap between price and intrinsic value.</p>
+  <div class="hero-title">MBA &amp; Master of Finance &nbsp;&middot;&nbsp; Schulich School of Business &nbsp;&middot;&nbsp; CFA Level I Candidate &nbsp;&middot;&nbsp; Toronto</div>
+  <p class="hero-desc">Independent bottom-up equity research across global equities. Mathematical background applied to fundamental business analysis &mdash; unit economics, business model quality, and the gap between price and intrinsic value.</p>
   <div class="hero-tags">
-    <span class="tag">FUNDAMENTAL RESEARCH</span>
-    <span class="tag">PYTHON · QUANTITATIVE</span>
-    <span class="tag">US · JAPAN · CHINA</span>
-    <span class="tag">SMALL & MID-CAP</span>
-    <span class="tag">BUY-SIDE ORIENTED</span>
+    <span class="tag">Fundamental Research</span>
+    <span class="tag">Python &middot; Quantitative</span>
+    <span class="tag">US &middot; Japan &middot; China &middot; Canada &middot; Europe</span>
+    <span class="tag">Buy-Side Oriented</span>
+    <span class="tag">CFA Level I Candidate</span>
   </div>
   <div class="hero-stats">
-    <div><div class="stat-n">6</div><div class="stat-l">COMPANIES</div></div>
-    <div><div class="stat-n">2</div><div class="stat-l">ACTIVE MEMOS</div></div>
-    <div><div class="stat-n">3</div><div class="stat-l">MARKETS</div></div>
-    <div><div class="stat-n">5</div><div class="stat-l">SECTORS</div></div>
+    <div><div class="stat-n">18</div><div class="stat-l">Companies</div></div>
+    <div><div class="stat-n">3</div><div class="stat-l">Active Memos</div></div>
+    <div><div class="stat-n">6</div><div class="stat-l">Markets</div></div>
+    <div><div class="stat-n">13</div><div class="stat-l">Sectors</div></div>
   </div>
 </section>
-
 <section id="coverage">
   <div class="tabs-wrap">
     <div class="tabs" id="tabBar">
-      <button class="tab active" data-filter="all">All Coverage &nbsp;(6)</button>
-      <button class="tab" data-filter="memo">Active Memos &nbsp;(2)</button>
-      <button class="tab" data-filter="research">Research &nbsp;(4)</button>
+      <button class="tab on" data-f="all">All (18)</button>
+      <button class="tab" data-f="memo">Active Memos (3)</button>
+      <button class="tab" data-f="research">Research (4)</button>
+      <button class="tab" data-f="holding">Holdings (11)</button>
     </div>
   </div>
   <div class="grid" id="grid"></div>
 </section>
-
-<div class="compare-outer">
-  <div class="compare">
-    <div class="compare-title">RELATIVE PERFORMANCE</div>
-    <div class="compare-sub">All holdings indexed to 100 — July 2025 to June 2026 &nbsp;|&nbsp; Hover for detail</div>
-    <div class="legend" id="legend"></div>
-    <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
-    <div class="chart-foot">Prices approximate. For informational purposes only. Last updated June 2026.</div>
+<div class="comp-outer">
+  <div class="comp">
+    <div class="comp-title">9-Year Portfolio Performance vs. S&amp;P 500</div>
+    <div class="comp-sub" id="compSub">Equal-weighted portfolio &mdash; January 2017 to July 2026 &nbsp;&middot;&nbsp; Hover for annual detail</div>
+    <div class="comp-legend">
+      <div class="cl-item"><div class="cl-solid" style="background:#1B2A4A"></div><span>Portfolio (EW)</span></div>
+      <div class="cl-item"><div class="cl-dashed"></div><span>S&amp;P 500</span></div>
+      <span id="indLeg" style="display:flex;gap:10px;flex-wrap:wrap"></span>
+    </div>
+    <div class="chart-wrap"><canvas id="cc"></canvas></div>
+    <div class="comp-stats" id="cst"></div>
+    <div class="comp-foot">Historical prices approximate. For informational purposes only. July 2026.</div>
   </div>
 </div>
-
 <section class="about" id="about">
-  <div style="font-size:9px;font-weight:700;letter-spacing:.15em;color:#2A3B50;margin-bottom:20px">ABOUT</div>
+  <div style="font-size:9px;font-weight:700;letter-spacing:.15em;color:#9CA3AF;margin-bottom:24px;text-transform:uppercase">About</div>
   <div class="about-grid">
     <div>
-      <div class="about-label">BACKGROUND</div>
-      <div class="about-item"><div class="about-dot"></div><div class="about-text">Master of Finance — Schulich School of Business, York University</div></div>
+      <div class="about-label">Background</div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">MBA &amp; Master of Finance &mdash; Schulich School of Business, York University</div></div>
       <div class="about-item"><div class="about-dot"></div><div class="about-text">CFA Level I Candidate</div></div>
-      <div class="about-item"><div class="about-dot"></div><div class="about-text">Former Capital Markets Analyst — institutional forecasting and valuation models supporting capital raises</div></div>
-      <div class="about-item"><div class="about-dot"></div><div class="about-text">Mathematics undergraduate — Python applied to quantitative financial modelling and correlation analysis</div></div>
-      <div class="about-item"><div class="about-dot"></div><div class="about-text">Previous experience in retail banking (TD Canada Trust) — credit dynamics, financial instruments, customer lending</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Former Capital Markets Analyst &mdash; institutional forecasting and valuation models</div></div>
+      <div class="about-item"><div class="about-dot"></div><div class="about-text">Mathematics undergraduate &mdash; Python applied to DCF modelling, Monte Carlo simulation, and multi-factor VaR</div></div>
     </div>
     <div>
-      <div class="about-label">INVESTMENT PHILOSOPHY</div>
-      <div class="about-philosophy">Bottom-up fundamental analysis anchored in unit economics — not macro assumptions. Research begins with the question of how a business actually makes money, how durable that advantage is, and whether the current price reflects a misunderstanding of the answer.<br><br>Coverage gravitates toward quality businesses temporarily mispriced by narrative: companies where the market is asking the wrong question, and where the right question produces a differentiated view on terminal value.</div>
+      <div class="about-label">Investment Philosophy</div>
+      <div class="about-text" style="font-size:12px;color:#374151;line-height:1.85">Bottom-up fundamental analysis anchored in unit economics rather than macro assumptions. Research begins with how a business actually makes money, how durable that competitive advantage is, and whether the current price reflects a misunderstanding of the answer. Coverage gravitates toward quality businesses temporarily mispriced by narrative, where the right question produces a differentiated view on long-run earnings power.</div>
     </div>
   </div>
 </section>
-
 <footer>
-  <p class="disc">This portfolio is for informational purposes only and does not constitute investment advice or a solicitation to buy or sell any security. All prices and performance figures are approximate. Past performance does not guarantee future results. Investment involves risk, including possible loss of principal.</p>
+  <p class="disc">This portfolio is for informational purposes only and does not constitute investment advice or a solicitation to buy or sell any security. All historical prices are approximate. Past performance does not guarantee future results. Investment involves risk including possible loss of principal.</p>
 </footer>
-
 <script>
-const MONTHS=["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"];
-const STOCKS=[
-  {ticker:"GNTX",name:"Gentex Corporation",exchange:"NASDAQ",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Auto Electronics",status:"memo",color:"#4A9DE0",memo:"GNTX_Investment_Memo_Sam_Dong.docx",thesis:"Digital cockpit infrastructure platform mispriced as a cyclical auto supplier. The EV transition structurally expands Gentex's addressable surface area — driver monitoring mandates, dimmable panoramic roofs, and larger glass surfaces increase content per vehicle. Current de-rating on EV disruption fears is precisely the entry point the thesis anticipates.",price:25.00,target:47,upsideLabel:"+88%",keyStats:[["FDM penetration","~7%"],["Target penetration","15%"],["Core gross margin","34.7%"],["Rev uplift per 1%","~$62M"]],prices:[35,34,32,30,28,27,26,25,24,25,25,25]},
-  {ticker:"WINA",name:"Winmark Corporation",exchange:"NASDAQ",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Franchise / Consumer",status:"memo",color:"#C4A44A",memo:"WINA_Investment_Memo_Sam_Dong.docx",thesis:"Asset-light royalty engine masquerading as a retailer. 98% franchise renewal and near-100% FCF conversion. 2,800+ available territories against 1,378 operating — the whitespace is an unpriced call option embedded within a conservatively valued royalty stream.",price:370,target:382,upsideLabel:"Fair Value",keyStats:[["Royalty per franchise","$54K/yr"],["Renewal rate","98%"],["Net margin","~48%"],["Available territories","2,800+"]],prices:[480,490,475,465,448,435,418,402,392,378,362,370]},
-  {ticker:"300750",name:"Contemporary Amperex Technology",exchange:"SZSE",flag:"🇨🇳",currency:"CNY",sym:"¥",sector:"EV Batteries",status:"research",color:"#4A9B8E",thesis:"Global EV battery market leader with 39% installed capacity share. Vertical integration insulates margins from lithium price volatility — tested via Python correlation analysis. Energy storage for data center applications is a second structural growth vector the market has not yet fully priced.",price:381,target:560,upsideLabel:"+47%",keyStats:[["Global market share","39%"],["52-week range","¥249–469"],["Vertical integration","Structural hedge"],["Analyst target","¥560 CNY"]],prices:[249,268,285,295,308,318,335,355,390,435,468,381]},
-  {ticker:"6098.T",name:"Recruit Holdings",exchange:"TSE",flag:"🇯🇵",currency:"JPY",sym:"¥",sector:"HR Technology",status:"research",color:"#E07A5F",thesis:"Owner of Indeed and Glassdoor — two of three globally scaled employment platforms. FY2025 net profit rose 22%, HR Technology margins expanded 5pp. AI-driven hiring automation is a structural tailwind for a network-effects platform with deep Japan optionality.",price:11180,target:null,upsideLabel:"Monitor",keyStats:[["FY2025 net profit growth","+22%"],["HR Tech margin expansion","+5pp"],["52-week range","¥6,040–11,755"],["Status","Monitor"]],prices:[6040,6300,6650,7100,7400,7600,7900,8200,8600,9100,10800,11180]},
-  {ticker:"8031.T",name:"Mitsui & Co.",exchange:"TSE",flag:"🇯🇵",currency:"JPY",sym:"¥",sector:"Diversified / Trading",status:"research",color:"#9B8EC4",thesis:"Japanese sogo shosha with a 155-year operational track record. Diversified energy, minerals, and infrastructure portfolio with owner-oriented capital discipline. Hit ATH ¥6,675 in April 2026 — current pullback may represent a compelling re-entry point.",price:4446,target:6311,upsideLabel:"+42%",keyStats:[["1-year performance","+53.4%"],["ATH (Apr 2026)","¥6,675"],["Dividend yield","2.59%"],["P/E","15.3x"]],prices:[2900,3100,3500,3800,4200,4500,4800,5200,5800,6200,5200,4446]},
-  {ticker:"KNSL",name:"Kinsale Capital Group",exchange:"NYSE",flag:"🇺🇸",currency:"USD",sym:"$",sector:"Specialty Insurance",status:"research",color:"#7BC4A0",thesis:"Best-in-class E&S lines underwriter consistently running combined ratios well below industry peers. Technology-enabled cost structure creates durable underwriting margin that compounds through the cycle. The business earns its returns through discipline, not leverage.",price:428,target:null,upsideLabel:"Monitor",keyStats:[["Segment","E&S Lines"],["Moat","Underwriting discipline"],["52-week return","+27.8%"],["Status","Monitor"]],prices:[335,350,365,382,398,412,428,445,460,448,438,428]}
+const YEARS=["Jan '17","Jan '18","Jan '19","Jan '20","Jan '21","Jan '22","Jan '23","Jan '24","Jan '25","Jul '26"];
+const SP500=[2250,2680,2510,3265,3714,4515,3824,4769,5868,5850];
+const S=[
+  {t:"GNTX",n:"Gentex Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#1E5BA8",mo:"GNTX_TianliSam_Dong.docx",
+   th:"Digital cockpit infrastructure platform mispriced on EV disruption fears. The EV transition expands addressable surface area per vehicle — driver monitoring mandates, dimmable panoramic roofs, and larger glass surfaces all increase content. De-rating on EV fears creates the entry point.",
+   p:25,tg:47,ul:"+88%",ks:[["FDM penetration","~7%"],["Core gross margin","34.7%"],["Rev uplift per 1%","~$62M"],["Target penetration","15%"]],
+   pr:[20,17,25,30,35,25,26,28,35,25]},
+  {t:"WINA",n:"Winmark Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#92700F",mo:"WINA_TianliSam_Dong.docx",
+   th:"Asset-light royalty engine masquerading as a retailer. $0.0M leasing income Q1 2026 — transformation complete. 100% Q1 renewal rate, $54K royalty/franchise at 75-80% incremental margins. EPS bridge $11.30→$15.50-16.00 organic; whitespace of 2,800+ territories adds unpriced optionality.",
+   p:424,tg:482,ul:"+14%",ks:[["Normalized EPS target","$15.50–16.00"],["Core value (29x)","$450–464"],["Total w/ whitespace","$467–482"],["Available territories","2,800+"]],
+   pr:[175,220,300,260,380,340,400,455,480,424]},
+  {t:"PLMR",n:"Palomar Holdings",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#2B6B30",mo:"PLMR_TianliSam_Dong.docx",
+   th:"Proprietary data-driven underwriting platform in specialty property lines. FY2025 adj. combined ratio 72.7%, adj. ROE 25.9% evidence pricing precision vs. industry ~95%. Trades at ~12x forward earnings for a 20%+ ROE compounder. Catastrophe fear has inverted the actual quality of the business.",
+   p:114,tg:185,ul:"+62%",ks:[["Adj. combined ratio","72.7% (FY2025)"],["Adj. ROE","25.9% (FY2025)"],["Forward P/E","~12x"],["2026 NI guidance","$260–275M"]],
+   pr:[null,null,18,70,100,55,65,95,140,114]},
+  {t:"300750",n:"Contemporary Amperex Technology",x:"SZSE",f:"\uD83C\uDDE8\uD83C\uF3F3",c:"CNY",s:"\u00A5",st:"research",col:"#0B7B6B",mo:"CATL_stock_pitch.pdf",
+   th:"DCF-anchored analysis with Bloomberg terminal data. WACC 5.65% (beta 0.75, utility-like characteristics), 2% TGR, intrinsic value 548 RMB vs 408 RMB current. 51:1 buy-to-sell analyst ratio, Bloomberg consensus 499 RMB. 100,000-iteration Monte Carlo: 1:12.5 risk-reward at 95% VaR.",
+   p:408,tg:548,ul:"+34%",ks:[["DCF intrinsic value","548 RMB"],["Bloomberg consensus","499 RMB"],["Risk-reward (95% VaR)","1:12.5"],["Analyst buy ratio","51:1"]],
+   pr:[null,40,45,90,500,380,190,230,250,408]},
+  {t:"6098.T",n:"Recruit Holdings",x:"TSE",f:"\uD83C\uDDEF\uD83C\uDDF5",c:"JPY",s:"\u00A5",st:"research",col:"#B33700",mo:"Recruit_Stock_Pitch.pdf",
+   th:"DCF with Bloomberg data. WACC 6.22%, beta 0.92, target \u00A58,022 (+26.7% from initiation price \u00A56,327). Validated with fwd P/E 28.65x and EV/EBITDA 18x. Monte Carlo 95% VaR floor \u00A55,762 (-8.5%) vs target = 1:2.9 risk/reward. Japan domestic SaaS transition adds unmodelled optionality.",
+   p:11180,tg:null,ul:"Monitor",ks:[["Initiation target","\u00A58,022 (+26.7%)"],["DCF WACC","6.22%"],["Risk-reward (95% VaR)","1:2.9"],["Current price","\u00A511,180 (above target)"]],
+   pr:[2000,2800,3200,3500,5000,5200,5800,7500,9800,11180]},
+  {t:"8031.T",n:"Mitsui & Co.",x:"TSE",f:"\uD83C\uDDEF\uD83C\uDDF5",c:"JPY",s:"\u00A5",st:"research",col:"#5C3D9E",
+   th:"Japanese sogo shosha with a 155-year operational track record. Diversified energy, minerals, and infrastructure portfolio with owner-oriented capital discipline. Hit ATH \u00A56,675 in April 2026 — current pullback may represent a compelling re-entry point.",
+   p:4446,tg:6311,ul:"+42%",ks:[["9-year return","+270%"],["ATH (Apr 2026)","\u00A56,675"],["Dividend yield","2.59%"],["P/E","15.3x"]],
+   pr:[1200,1400,1400,1100,1700,2600,3500,4500,5800,4446]},
+  {t:"KNSL",n:"Kinsale Capital Group",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"research",col:"#0B7785",
+   th:"Best-in-class E&S lines underwriter. Combined ratios consistently below industry peers through the cycle. Technology-enabled cost structure creates durable underwriting margin. 9-year return +970%.",
+   p:428,tg:null,ul:"Monitor",ks:[["9-year return","+970%"],["Segment","E&S Lines"],["Moat","Underwriting discipline"],["Status","Monitor"]],
+   pr:[40,55,95,200,250,250,400,470,500,428]},
+  {t:"RACE",n:"Ferrari N.V.",x:"NYSE",f:"\uD83C\uDDEE\uD83C\uDDF9",c:"USD",s:"$",st:"holding",col:"#C0392B",
+   th:"Scarcity-model luxury automotive. Ferrari deliberately constrains production to protect pricing power across cycles. FY2025 revenue \u20AC7.15B (+7%). De-rated ~26% from July 2025 peak of $519 — analyst consensus target ~$440.",
+   p:385,tg:null,ul:"Long",ks:[["52-week range","$312–$519"],["FY2025 revenue","\u20AC7.15B (+7%)"],["9-year return","+381%"],["Status","Long"]],
+   pr:[80,120,165,175,215,200,320,420,490,385]},
+  {t:"TTWO",n:"Take-Two Interactive",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#2C3E8C",
+   th:"GTA VI confirmed November 19, 2026 at $79.99. FY2026 net bookings $6.72B (+19%). FY2027 guidance $8.0-8.2B. Recurrent consumer spending 78% of FY2026 bookings — live-service engine runs independent of new releases.",
+   p:255,tg:null,ul:"Long",ks:[["GTA VI launch","Nov 19, 2026"],["FY2026 bookings","$6.72B (+19%)"],["FY2027 guidance","$8.0–8.2B"],["9-year return","+264%"]],
+   pr:[70,115,90,160,185,120,150,165,200,255]},
+  {t:"AAPL",n:"Apple Inc.",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#4A4A4A",
+   th:"Hardware-software ecosystem, 2B+ active devices. FY2025 revenue $416B (+6.4%), earnings +19.5%. Services margins structurally exceed hardware and compound the installed base value. 9-year return +927%.",
+   p:308,tg:null,ul:"Long",ks:[["FY2025 revenue","$416B (+6.4%)"],["Active devices","2B+"],["9-year return","+927%"],["Analyst target","~$315"]],
+   pr:[30,40,72,130,176,130,190,195,222,308]},
+  {t:"NVDA",n:"NVIDIA Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#3A6B0F",
+   th:"Dominant GPU compute supplier for AI training and inference. CUDA ecosystem creates platform switching costs extending beyond hardware. Infrastructure-level positioning in the global AI buildout. 9-year return +1350%.",
+   p:145,tg:null,ul:"Long",ks:[["Moat","CUDA ecosystem"],["Gross margin","~78%"],["9-year return","+1,350%"],["Status","Core holding"]],
+   pr:[10,14,13,52,72,15,50,130,128,145]},
+  {t:"RBC",n:"Royal Bank of Canada",x:"TSX",f:"\uD83C\uDDE8\uD83C\uDDE6",c:"CAD",s:"$",st:"holding",col:"#1A237E",
+   th:"Largest Canadian bank by market cap. CAD $2.4T assets as of April 2026. Dominant retail franchise, growing wealth management, top 15 global investment bank. Consistent dividend growth across economic cycles.",
+   p:195,tg:null,ul:"Long",ks:[["Total assets","CAD $2.4T"],["Dividend yield","~3.5%"],["9-year return","+117%"],["Status","Core holding"]],
+   pr:[90,105,107,85,130,135,120,140,165,195]},
+  {t:"H",n:"Hydro One Limited",x:"TSX",f:"\uD83C\uDDE8\uD83C\uDDE6",c:"CAD",s:"$",st:"holding",col:"#C75000",
+   th:"Regulated electricity T&D utility in Ontario. Rate-base growth ~6%/yr provides multi-year earnings visibility with government-regulated returns and minimal commodity exposure. Stable dividend compounder.",
+   p:46,tg:null,ul:"Long",ks:[["Rate base growth","~6%/yr"],["Dividend yield","~3%"],["9-year return","+130%"],["Status","Core holding"]],
+   pr:[20,22,23,25,30,35,37,40,42,46]},
+  {t:"OR.PA",n:"L'Or\u00E9al S.A.",x:"Euronext",f:"\uD83C\uDDEB\uD83C\uDDF7",c:"EUR",s:"\u20AC",st:"holding",col:"#8B1A6B",
+   th:"Premium consumer beauty brand with unmatched global distribution across mass and luxury segments. Dermatological Beauty and Luxe divisions compound at superior margins. Emerging market penetration adds a long-duration growth vector.",
+   p:330,tg:null,ul:"Long",ks:[["Segments","Mass + Luxury + Pharma"],["Dividend yield","~2%"],["9-year return","+78%"],["Status","Long"]],
+   pr:[185,200,255,295,385,340,420,380,360,330]},
+  {t:"NFLX",n:"Netflix, Inc.",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#C0392B",
+   th:"Dominant global streaming platform. Password-sharing enforcement, ad-tier rollout, and pricing discipline have structurally improved profitability. Global content moat deepens as the subscriber base scales — content ROI improves with each new market. 9-year return +721%.",
+   p:1150,tg:null,ul:"Long",ks:[["Global subscribers","~300M+"],["Revenue model","Subscription + Ads"],["9-year return","+721%"],["Status","Long"]],
+   pr:[140,265,325,540,610,295,480,680,980,1150]},
+  {t:"CMG",n:"Chipotle Mexican Grill",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#2E6B0F",
+   th:"High-conviction fast-casual compounder. Restaurant-level margins consistently above 25% on a fully company-owned model. 7,000+ addressable US locations vs ~3,500 current. International expansion adds a second growth vector. Prices reflect post-50:1 split (June 2024). 9-year return +759%.",
+   p:55,tg:null,ul:"Long",ks:[["Restaurant margin","~25%+"],["Locations","~3,500 current"],["Addressable","7,000+ US sites"],["9-year return","+759%"]],
+   pr:[6.4,10,16.6,25.6,35.4,29,42,52,58,55]},
+  {t:"SBUX",n:"Starbucks Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#1B5E20",
+   th:"Global coffee brand undergoing operational turnaround under Brian Niccol. Premium brand recognition provides structural pricing power. Loyalty program 35M+ members creates recurring revenue moat. International expansion, particularly in China, provides long-duration runway.",
+   p:85,tg:null,ul:"Long",ks:[["Loyalty members","35M+ active"],["Int'l locations","30,000+"],["CEO","Brian Niccol (turnaround)"],["Status","Watch"]],
+   pr:[56,56,88,95,115,88,100,90,80,85]},
+  {t:"TGT",n:"Target Corporation",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#D35400",
+   th:"Omnichannel retailer with differentiated owned-brand portfolio. Same-day delivery and Drive Up fulfillment have structurally upgraded the customer value proposition. Current valuation near multi-year lows reflects macro headwinds, not terminal impairment of the business model.",
+   p:105,tg:null,ul:"Long",ks:[["Model","Omnichannel"],["Owned brands","Differentiated portfolio"],["Valuation","Near multi-year lows"],["Status","Cyclical watch"]],
+   pr:[68,72,80,95,250,175,125,155,130,105]},
 ];
 
-function calcRet(p){return((p[p.length-1]-p[0])/p[0]*100)}
-function norm(p){return p.map(v=>+((v/p[0]*100).toFixed(2)))}
+function cr(p){const v=p.filter(x=>x!==null);return(v[v.length-1]-v[0])/v[0]*100}
+function na(p){const base=p.find(x=>x!==null);return p.map(v=>v===null?null:+(v/base*100).toFixed(2))}
+function portAgg(){
+  return YEARS.map((_,i)=>{
+    const vals=S.map(s=>{
+      if(s.pr[i]===null){const base=s.pr.find(x=>x!==null);return base?100:100}
+      const base=s.pr.find(x=>x!==null);
+      return base?+(s.pr[i]/base*100).toFixed(2):100;
+    });
+    return +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2);
+  });
+}
+const spN=na(SP500);
+
+function badge(st){
+  if(st==="memo")return{bg:"rgba(139,105,20,0.1)",c:"#8B6914",br:"rgba(139,105,20,0.25)",l:"ACTIVE MEMO"};
+  if(st==="research")return{bg:"rgba(45,90,39,0.1)",c:"#2D5A27",br:"rgba(45,90,39,0.25)",l:"RESEARCH"};
+  return{bg:"rgba(43,87,151,0.1)",c:"#2B5797",br:"rgba(43,87,151,0.25)",l:"HOLDING"};
+}
 
 function card(s){
-  const ret=calcRet(s.prices),pos=ret>=0,rc=pos?'#34D399':'#F87171',memo=s.status==='memo';
-  const tb=memo?'#C4A44A':s.color,bb=memo?'rgba(196,164,74,0.12)':'rgba(74,155,142,0.12)',bc=memo?'#C4A44A':'#4A9B8E',bbd=memo?'rgba(196,164,74,0.25)':'rgba(74,155,142,0.25)',bl=memo?'ACTIVE MEMO':'RESEARCH';
-  const fp=s.currency==='USD'?`$${s.price.toLocaleString()}`:`${s.sym}${s.price.toLocaleString()} ${s.currency}`;
-  const ft=s.target?(s.currency==='USD'?`$${s.target.toLocaleString()}`:`${s.sym}${s.target.toLocaleString()} ${s.currency}`):'';
-  const cid='sp_'+s.ticker.replace(/\./g,'_');
-  const ks=s.keyStats.map(([l,v])=>`<div class="ks"><span>${l}: </span><span class="ks-v">${v}</span></div>`).join('');
-  const mr=s.memo?`<div class="memo-ref"><span style="font-size:12px">📄</span><span class="memo-name">${s.memo}</span></div>`:'';
-  return `<div class="card" style="border-top:2px solid ${tb}" data-status="${s.status}">
-    <div class="card-top">
-      <div>
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><span style="font-size:12px">${s.flag}</span><span class="ticker" style="color:${s.color}">${s.ticker}</span><span class="exch-badge">${s.exchange}</span></div>
-        <div class="company">${s.name}</div>
+  const r=cr(s.pr),pos=r>=0,rc=pos?"#166534":"#9B1C1C";
+  const b=badge(s.st);
+  const id="sp_"+s.t.replace(/[^a-zA-Z0-9]/g,"_");
+  const fp=s.c==="EUR"?"\u20AC"+s.p.toLocaleString()+" EUR":s.c==="JPY"?"\u00A5"+s.p.toLocaleString()+" JPY":s.c==="CAD"?"$"+s.p.toLocaleString()+" CAD":"$"+s.p.toLocaleString();
+  const ft=s.tg?"$"+s.tg:"";
+  const ks=s.ks.map(([l,v])=>`<div class="ks">${l}: <span class="ks-v">${v}</span></div>`).join("");
+  const mr=s.mo?`<div class="memo-ref"><span style="font-size:12px">${s.mo.endsWith('.pdf')?'&#128196;':'&#128196;'}</span><span class="memo-name">${s.mo}</span></div>`:"";
+  const tb=s.st==="memo"?"#8B6914":s.st==="research"?"#2D5A27":s.col;
+  return`<div class="card" style="border-top:3px solid ${tb}">
+  <div class="card-top">
+    <div>
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px">
+        <span style="font-size:13px">${s.f}</span>
+        <span class="tkr" style="color:${s.col}">${s.t}</span>
+        <span class="xbadge">${s.x}</span>
       </div>
-      <div class="status-badge" style="background:${bb};color:${bc};border:1px solid ${bbd}">${bl}</div>
+      <div class="cname">${s.n}</div>
     </div>
-    <div class="sparkrow">
-      <div class="sparkwrap"><canvas id="${cid}"></canvas></div>
-      <div class="ret"><div class="ret-n" style="color:${rc}">${pos?'+':''}${ret.toFixed(1)}%</div><div class="ret-l">12M RETURN</div></div>
-    </div>
-    <div class="pricerow">
-      <div><div class="pl">CURRENT</div><div class="pv">${fp}</div></div>
-      ${s.target?`<div style="text-align:center"><div class="pl">TARGET</div><div class="tv">${ft}</div></div>`:''}
-      <div style="text-align:right"><div class="pl">UPSIDE</div><div class="tv">${s.upsideLabel}</div></div>
-    </div>
-    <p class="thesis">${s.thesis}</p>
-    <div class="kstats">${ks}</div>
-    ${mr}
-  </div>`;
+    <div class="sbadge" style="background:${b.bg};color:${b.c};border:1px solid ${b.br}">${b.l}</div>
+  </div>
+  <div class="sparkrow">
+    <div class="sparkwrap"><canvas id="${id}"></canvas></div>
+    <div class="ret"><div class="ret-n" style="color:${rc}">${pos?"+":""}${r.toFixed(1)}%</div><div class="ret-l">9-YR RETURN</div></div>
+  </div>
+  <div class="pricerow">
+    <div><div class="pl">Current</div><div class="pv">${fp}</div></div>
+    ${s.tg?`<div style="text-align:center"><div class="pl">Target</div><div class="tv">${ft}</div></div>`:""}
+    <div style="text-align:right"><div class="pl">Position</div><div class="tv">${s.ul}</div></div>
+  </div>
+  <p class="thesis">${s.th}</p>
+  <div class="kstats">${ks}</div>
+  ${mr}
+</div>`;
 }
 
 function spark(s){
-  const el=document.getElementById('sp_'+s.ticker.replace(/\./g,'_'));if(!el)return;
-  const pos=calcRet(s.prices)>=0,lc=pos?'#34D399':'#F87171';
-  new Chart(el,{type:'line',data:{labels:MONTHS,datasets:[{data:norm(s.prices),borderColor:lc,borderWidth:1.5,fill:true,backgroundColor:ctx=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,48);g.addColorStop(0,pos?'rgba(52,211,153,0.2)':'rgba(248,113,113,0.2)');g.addColorStop(1,'rgba(0,0,0,0)');return g},pointRadius:0,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+  const el=document.getElementById("sp_"+s.t.replace(/[^a-zA-Z0-9]/g,"_"));if(!el)return;
+  const pos=cr(s.pr)>=0;
+  const lc=pos?"#166534":"#9B1C1C";
+  const fc=pos?"rgba(22,101,52,0.12)":"rgba(153,27,27,0.10)";
+  new Chart(el,{type:"line",data:{labels:YEARS,datasets:[{data:na(s.pr),borderColor:lc,borderWidth:1.5,fill:true,backgroundColor:fc,pointRadius:0,tension:0.3,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
 }
 
-function compare(){
-  const el=document.getElementById('compareChart');if(!el)return;
-  new Chart(el,{type:'line',data:{labels:MONTHS,datasets:STOCKS.map(s=>({label:s.ticker,data:norm(s.prices),borderColor:s.color,borderWidth:1.5,pointRadius:0,tension:0.3,fill:false}))},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#0A1628',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#7A8BA8',bodyColor:'#E2E8F0',padding:8,callbacks:{label:c=>{const v=(c.raw-100).toFixed(1);return ` ${c.dataset.label}: ${v>=0?'+':''}${v}%`}}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#2A3B50',font:{size:9},maxRotation:0}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#2A3B50',font:{size:9},callback:v=>v===100?'Base':v>100?`+${(v-100).toFixed(0)}%`:`${(v-100).toFixed(0)}%`}}}}});
+let ci=null;
+function buildChart(f){
+  if(ci){ci.destroy();ci=null;}
+  const el=document.getElementById("cc");if(!el)return;
+  const shown=f==="all"?[]:f==="memo"?S.filter(s=>s.st==="memo"):f==="research"?S.filter(s=>s.st==="research"):S.filter(s=>s.st==="holding");
+  const agg=portAgg();
+  const pRet=(agg[agg.length-1]-100).toFixed(1);
+  const sRet=(spN[spN.length-1]-100).toFixed(1);
+  const alpha=(parseFloat(pRet)-parseFloat(sRet)).toFixed(1);
+  const cst=document.getElementById("cst");
+  if(cst)cst.innerHTML=`<div><div class="cs-label">Portfolio (EW)</div><div class="cs-val" style="color:${parseFloat(pRet)>=0?"#166534":"#9B1C1C"}">${parseFloat(pRet)>=0?"+":""}${pRet}%</div></div><div><div class="cs-label">S&amp;P 500</div><div class="cs-val" style="color:#374151">${parseFloat(sRet)>=0?"+":""}${sRet}%</div></div><div><div class="cs-label">Alpha (9yr)</div><div class="cs-val" style="color:${parseFloat(alpha)>=0?"#8B6914":"#9B1C1C"}">${parseFloat(alpha)>=0?"+":""}${alpha}%</div></div>`;
+  const leg=document.getElementById("indLeg");
+  if(leg)leg.innerHTML=shown.map(s=>`<div class="cl-item"><div class="cl-solid" style="background:${s.col}"></div><span>${s.t}</span></div>`).join("");
+  const ds=[...shown.map(s=>({label:s.t,data:na(s.pr),borderColor:s.col,borderWidth:1.5,pointRadius:0,tension:0.3,fill:false,spanGaps:true})),{label:"S&P 500",data:spN,borderColor:"#8B6914",borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.3,fill:false},{label:"Portfolio",data:agg,borderColor:"#1B2A4A",borderWidth:2.5,pointRadius:0,tension:0.3,fill:false}];
+  ci=new Chart(el,{type:"line",data:{labels:YEARS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:"#FFFFFF",borderColor:"#E5E7EB",borderWidth:1,titleColor:"#374151",bodyColor:"#6B7280",padding:10,boxShadow:"0 4px 6px rgba(0,0,0,0.1)",callbacks:{label:ctx=>{const ok=["Portfolio","S&P 500",...shown.map(s=>s.t)];if(!ok.includes(ctx.dataset.label))return null;const v=(ctx.raw-100).toFixed(1);return` ${ctx.dataset.label}: ${v>=0?"+":""}${v}%`}}}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:9},maxRotation:0}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:9},callback:v=>v===100?"Base":v>100?`+${(v-100).toFixed(0)}%`:`${(v-100).toFixed(0)}%`}}}}});
 }
 
-function legend(){
-  document.getElementById('legend').innerHTML=STOCKS.map(s=>{const r=calcRet(s.prices),rc=r>=0?'#34D399':'#F87171';return`<div class="legend-item"><div class="legend-line" style="background:${s.color}"></div><span style="color:#4A6080">${s.ticker}</span><span style="color:${rc};font-weight:700">${r>=0?'+':''}${r.toFixed(1)}%</span></div>`}).join('');
-}
-
-let filter='all';
+let cf="all";
 function render(){
-  const v=filter==='all'?STOCKS:filter==='memo'?STOCKS.filter(s=>s.status==='memo'):STOCKS.filter(s=>s.status==='research');
-  document.getElementById('grid').innerHTML=v.map(card).join('');
-  v.forEach(spark);
+  const vis=cf==="all"?S:S.filter(s=>s.st===cf);
+  document.getElementById("grid").innerHTML=vis.map(card).join("");
+  vis.forEach(spark);
+  buildChart(cf);
 }
-
-document.getElementById('tabBar').addEventListener('click',e=>{
-  const b=e.target.closest('.tab');if(!b)return;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  b.classList.add('active');filter=b.dataset.filter;render();
+document.getElementById("tabBar").addEventListener("click",e=>{
+  const b=e.target.closest(".tab");if(!b)return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+  b.classList.add("on");cf=b.dataset.f;render();
 });
-
-render();legend();compare();
+render();
 </script>
 </body>
 </html>
