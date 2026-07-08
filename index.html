@@ -71,6 +71,9 @@ body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMac
 .cs-label{font-size:8px;color:#9CA3AF;margin-bottom:4px;letter-spacing:.08em;text-transform:uppercase}
 .cs-val{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:700}
 .comp-foot{font-size:8px;color:#D1D5DB;text-align:right;margin-top:10px}
+.alloc-note{font-size:10px;color:#6B7280;line-height:1.8;padding-top:12px;margin-top:4px;border-top:1px solid #F3F4F6}
+.alloc-note b{color:#374151;font-weight:600}
+.alloc-chip{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:10px;background:#F9FAFB;border:1px solid #E5E7EB;color:#374151;margin:2px 3px 2px 0}
 /* ABOUT */
 .about{max-width:980px;margin:0 auto;padding:32px 32px 40px;border-top:2px solid #D5CFC7}
 .about-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:#8B6914;margin-bottom:12px;text-transform:uppercase}
@@ -81,6 +84,18 @@ body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMac
 footer{background:#1B2A4A;padding:24px 32px;text-align:center}
 .disc{font-size:9px;color:rgba(255,255,255,0.25);line-height:1.7;max-width:640px;margin:0 auto}
 @media(max-width:640px){.about-grid{grid-template-columns:1fr}.hero-name{font-size:30px}.grid{grid-template-columns:1fr}.hero-stats{gap:20px}}
+
+.real-row{display:grid;grid-template-columns:1.6fr 1fr 1.3fr 1fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:11px}
+.real-row:last-child{border-bottom:none}
+.real-name{font-size:9px;color:#9CA3AF;margin-top:1px}
+.real-dates{font-family:"JetBrains Mono",monospace;font-size:10px;color:#6B7280}
+.real-frac{font-size:8px;color:#9CA3AF;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.real-vals{font-family:"JetBrains Mono",monospace;font-size:10px;color:#374151}
+.real-gain{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;text-align:right}
+.section-hdr{max-width:980px;margin:0 auto;padding:0 32px 10px;display:flex;justify-content:space-between;align-items:baseline}
+.section-hdr h2{font-size:15px;font-weight:700;color:#1B2A4A;font-family:"Playfair Display",serif}
+.section-hdr span{font-size:9px;color:#9CA3AF;letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:640px){.real-row{grid-template-columns:1fr 1fr;row-gap:4px}}
 </style>
 </head>
 <body>
@@ -105,35 +120,36 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
     <span class="tag">CFA Level I Candidate</span>
   </div>
   <div class="hero-stats">
-    <div><div class="stat-n">18</div><div class="stat-l">Companies</div></div>
-    <div><div class="stat-n">3</div><div class="stat-l">Active Memos</div></div>
-    <div><div class="stat-n">6</div><div class="stat-l">Markets</div></div>
-    <div><div class="stat-n">13</div><div class="stat-l">Sectors</div></div>
+    <div><div class="stat-n">60</div><div class="stat-l">Companies Covered</div></div>
+    <div><div class="stat-n">43</div><div class="stat-l">Active Holdings</div></div>
+    <div><div class="stat-n">18</div><div class="stat-l">Realized Positions</div></div>
+    <div><div class="stat-n">8</div><div class="stat-l">Markets</div></div>
   </div>
 </section>
 <section id="coverage">
-  <div class="tabs-wrap">
-    <div class="tabs" id="tabBar">
-      <button class="tab on" data-f="all">All (18)</button>
-      <button class="tab" data-f="memo">Active Memos (3)</button>
-      <button class="tab" data-f="research">Research (4)</button>
-      <button class="tab" data-f="holding">Holdings (11)</button>
-    </div>
-  </div>
+  <div class="section-hdr"><h2>Active Holdings</h2><span>43 positions &middot; $10,000 initial + $2,000/yr</span></div>
   <div class="grid" id="grid"></div>
 </section>
 <div class="comp-outer">
   <div class="comp">
-    <div class="comp-title">9-Year Portfolio Performance vs. S&amp;P 500</div>
-    <div class="comp-sub" id="compSub">Equal-weighted portfolio &mdash; January 2017 to July 2026 &nbsp;&middot;&nbsp; Hover for annual detail</div>
+    <div class="comp-title">Portfolio Performance vs. S&amp;P 500</div>
+    <div class="comp-sub">$10,000 started January 2017 &middot; +$2,000 contributed every January through 2026 &middot; 10% NVDA / 10% AAPL / 5% TSLA / 5% AMD, remaining 70% split evenly (2:1 MGM:Caesars) across the rest, dynamically rebalanced as positions open and close &middot; realized gains from closed positions are redeployed evenly across active holdings</div>
     <div class="comp-legend">
-      <div class="cl-item"><div class="cl-solid" style="background:#1B2A4A"></div><span>Portfolio (EW)</span></div>
-      <div class="cl-item"><div class="cl-dashed"></div><span>S&amp;P 500</span></div>
-      <span id="indLeg" style="display:flex;gap:10px;flex-wrap:wrap"></span>
+      <div class="cl-item"><div class="cl-solid" style="background:#1B2A4A"></div><span>Portfolio</span></div>
+      <div class="cl-item"><div class="cl-dashed"></div><span>S&amp;P 500 (same cash flows)</span></div>
     </div>
-    <div class="chart-wrap"><canvas id="cc"></canvas></div>
+    <div class="chart-wrap" style="height:240px"><canvas id="cc"></canvas></div>
     <div class="comp-stats" id="cst"></div>
-    <div class="comp-foot">Historical prices approximate. For informational purposes only. July 2026.</div>
+    <div class="comp-foot">Hypothetical, backtested illustration only &mdash; not investment advice. Historical prices approximate. July 2026.</div>
+  </div>
+</div>
+<div class="comp-outer">
+  <div class="comp">
+    <div class="comp-title">Realized &amp; Closed Positions</div>
+    <div class="comp-sub">18 positions closed since 2017 &mdash; gain/loss shown over the duration each was held. Positive proceeds are redeployed evenly across active holdings above.</div>
+    <div class="comp-stats" id="realizedStats" style="margin-top:0;padding-top:0;border-top:none"></div>
+    <div id="realizedList" style="margin-top:8px"></div>
+    <div class="comp-foot">Hypothetical, backtested illustration only &mdash; not investment advice. July 2026.</div>
   </div>
 </div>
 <section class="about" id="about">
@@ -156,113 +172,124 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
   <p class="disc">This portfolio is for informational purposes only and does not constitute investment advice or a solicitation to buy or sell any security. All historical prices are approximate. Past performance does not guarantee future results. Investment involves risk including possible loss of principal.</p>
 </footer>
 <script>
-const YEARS=["Jan '17","Jan '18","Jan '19","Jan '20","Jan '21","Jan '22","Jan '23","Jan '24","Jan '25","Jul '26"];
-const SP500=[2250,2680,2510,3265,3714,4515,3824,4769,5868,5850];
-const S=[
-  {t:"GNTX",n:"Gentex Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#1E5BA8",mo:"GNTX_TianliSam_Dong.docx",
-   th:"Digital cockpit infrastructure platform mispriced on EV disruption fears. The EV transition expands addressable surface area per vehicle — driver monitoring mandates, dimmable panoramic roofs, and larger glass surfaces all increase content. De-rating on EV fears creates the entry point.",
-   p:25,tg:47,ul:"+88%",ks:[["FDM penetration","~7%"],["Core gross margin","34.7%"],["Rev uplift per 1%","~$62M"],["Target penetration","15%"]],
-   pr:[20,17,25,30,35,25,26,28,35,25]},
-  {t:"WINA",n:"Winmark Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#92700F",mo:"WINA_TianliSam_Dong.docx",
-   th:"Asset-light royalty engine masquerading as a retailer. $0.0M leasing income Q1 2026 — transformation complete. 100% Q1 renewal rate, $54K royalty/franchise at 75-80% incremental margins. EPS bridge $11.30→$15.50-16.00 organic; whitespace of 2,800+ territories adds unpriced optionality.",
-   p:424,tg:482,ul:"+14%",ks:[["Normalized EPS target","$15.50–16.00"],["Core value (29x)","$450–464"],["Total w/ whitespace","$467–482"],["Available territories","2,800+"]],
-   pr:[175,220,300,260,380,340,400,455,480,424]},
-  {t:"PLMR",n:"Palomar Holdings",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"memo",col:"#2B6B30",mo:"PLMR_TianliSam_Dong.docx",
-   th:"Proprietary data-driven underwriting platform in specialty property lines. FY2025 adj. combined ratio 72.7%, adj. ROE 25.9% evidence pricing precision vs. industry ~95%. Trades at ~12x forward earnings for a 20%+ ROE compounder. Catastrophe fear has inverted the actual quality of the business.",
-   p:114,tg:185,ul:"+62%",ks:[["Adj. combined ratio","72.7% (FY2025)"],["Adj. ROE","25.9% (FY2025)"],["Forward P/E","~12x"],["2026 NI guidance","$260–275M"]],
-   pr:[null,null,18,70,100,55,65,95,140,114]},
-  {t:"300750",n:"Contemporary Amperex Technology",x:"SZSE",f:"\uD83C\uDDE8\uD83C\uF3F3",c:"CNY",s:"\u00A5",st:"research",col:"#0B7B6B",mo:"CATL_stock_pitch.pdf",
-   th:"DCF-anchored analysis with Bloomberg terminal data. WACC 5.65% (beta 0.75, utility-like characteristics), 2% TGR, intrinsic value 548 RMB vs 408 RMB current. 51:1 buy-to-sell analyst ratio, Bloomberg consensus 499 RMB. 100,000-iteration Monte Carlo: 1:12.5 risk-reward at 95% VaR.",
-   p:408,tg:548,ul:"+34%",ks:[["DCF intrinsic value","548 RMB"],["Bloomberg consensus","499 RMB"],["Risk-reward (95% VaR)","1:12.5"],["Analyst buy ratio","51:1"]],
-   pr:[null,40,45,90,500,380,190,230,250,408]},
-  {t:"6098.T",n:"Recruit Holdings",x:"TSE",f:"\uD83C\uDDEF\uD83C\uDDF5",c:"JPY",s:"\u00A5",st:"research",col:"#B33700",mo:"Recruit_Stock_Pitch.pdf",
-   th:"DCF with Bloomberg data. WACC 6.22%, beta 0.92, target \u00A58,022 (+26.7% from initiation price \u00A56,327). Validated with fwd P/E 28.65x and EV/EBITDA 18x. Monte Carlo 95% VaR floor \u00A55,762 (-8.5%) vs target = 1:2.9 risk/reward. Japan domestic SaaS transition adds unmodelled optionality.",
-   p:11180,tg:null,ul:"Monitor",ks:[["Initiation target","\u00A58,022 (+26.7%)"],["DCF WACC","6.22%"],["Risk-reward (95% VaR)","1:2.9"],["Current price","\u00A511,180 (above target)"]],
-   pr:[2000,2800,3200,3500,5000,5200,5800,7500,9800,11180]},
-  {t:"8031.T",n:"Mitsui & Co.",x:"TSE",f:"\uD83C\uDDEF\uD83C\uDDF5",c:"JPY",s:"\u00A5",st:"research",col:"#5C3D9E",
-   th:"Japanese sogo shosha with a 155-year operational track record. Diversified energy, minerals, and infrastructure portfolio with owner-oriented capital discipline. Hit ATH \u00A56,675 in April 2026 — current pullback may represent a compelling re-entry point.",
-   p:4446,tg:6311,ul:"+42%",ks:[["9-year return","+270%"],["ATH (Apr 2026)","\u00A56,675"],["Dividend yield","2.59%"],["P/E","15.3x"]],
-   pr:[1200,1400,1400,1100,1700,2600,3500,4500,5800,4446]},
-  {t:"KNSL",n:"Kinsale Capital Group",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"research",col:"#0B7785",
-   th:"Best-in-class E&S lines underwriter. Combined ratios consistently below industry peers through the cycle. Technology-enabled cost structure creates durable underwriting margin. 9-year return +970%.",
-   p:428,tg:null,ul:"Monitor",ks:[["9-year return","+970%"],["Segment","E&S Lines"],["Moat","Underwriting discipline"],["Status","Monitor"]],
-   pr:[40,55,95,200,250,250,400,470,500,428]},
-  {t:"RACE",n:"Ferrari N.V.",x:"NYSE",f:"\uD83C\uDDEE\uD83C\uDDF9",c:"USD",s:"$",st:"holding",col:"#C0392B",
-   th:"Scarcity-model luxury automotive. Ferrari deliberately constrains production to protect pricing power across cycles. FY2025 revenue \u20AC7.15B (+7%). De-rated ~26% from July 2025 peak of $519 — analyst consensus target ~$440.",
-   p:385,tg:null,ul:"Long",ks:[["52-week range","$312–$519"],["FY2025 revenue","\u20AC7.15B (+7%)"],["9-year return","+381%"],["Status","Long"]],
-   pr:[80,120,165,175,215,200,320,420,490,385]},
-  {t:"TTWO",n:"Take-Two Interactive",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#2C3E8C",
-   th:"GTA VI confirmed November 19, 2026 at $79.99. FY2026 net bookings $6.72B (+19%). FY2027 guidance $8.0-8.2B. Recurrent consumer spending 78% of FY2026 bookings — live-service engine runs independent of new releases.",
-   p:255,tg:null,ul:"Long",ks:[["GTA VI launch","Nov 19, 2026"],["FY2026 bookings","$6.72B (+19%)"],["FY2027 guidance","$8.0–8.2B"],["9-year return","+264%"]],
-   pr:[70,115,90,160,185,120,150,165,200,255]},
-  {t:"AAPL",n:"Apple Inc.",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#4A4A4A",
-   th:"Hardware-software ecosystem, 2B+ active devices. FY2025 revenue $416B (+6.4%), earnings +19.5%. Services margins structurally exceed hardware and compound the installed base value. 9-year return +927%.",
-   p:308,tg:null,ul:"Long",ks:[["FY2025 revenue","$416B (+6.4%)"],["Active devices","2B+"],["9-year return","+927%"],["Analyst target","~$315"]],
-   pr:[30,40,72,130,176,130,190,195,222,308]},
-  {t:"NVDA",n:"NVIDIA Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#3A6B0F",
-   th:"Dominant GPU compute supplier for AI training and inference. CUDA ecosystem creates platform switching costs extending beyond hardware. Infrastructure-level positioning in the global AI buildout. 9-year return +1350%.",
-   p:145,tg:null,ul:"Long",ks:[["Moat","CUDA ecosystem"],["Gross margin","~78%"],["9-year return","+1,350%"],["Status","Core holding"]],
-   pr:[10,14,13,52,72,15,50,130,128,145]},
-  {t:"RBC",n:"Royal Bank of Canada",x:"TSX",f:"\uD83C\uDDE8\uD83C\uDDE6",c:"CAD",s:"$",st:"holding",col:"#1A237E",
-   th:"Largest Canadian bank by market cap. CAD $2.4T assets as of April 2026. Dominant retail franchise, growing wealth management, top 15 global investment bank. Consistent dividend growth across economic cycles.",
-   p:195,tg:null,ul:"Long",ks:[["Total assets","CAD $2.4T"],["Dividend yield","~3.5%"],["9-year return","+117%"],["Status","Core holding"]],
-   pr:[90,105,107,85,130,135,120,140,165,195]},
-  {t:"H",n:"Hydro One Limited",x:"TSX",f:"\uD83C\uDDE8\uD83C\uDDE6",c:"CAD",s:"$",st:"holding",col:"#C75000",
-   th:"Regulated electricity T&D utility in Ontario. Rate-base growth ~6%/yr provides multi-year earnings visibility with government-regulated returns and minimal commodity exposure. Stable dividend compounder.",
-   p:46,tg:null,ul:"Long",ks:[["Rate base growth","~6%/yr"],["Dividend yield","~3%"],["9-year return","+130%"],["Status","Core holding"]],
-   pr:[20,22,23,25,30,35,37,40,42,46]},
-  {t:"OR.PA",n:"L'Or\u00E9al S.A.",x:"Euronext",f:"\uD83C\uDDEB\uD83C\uDDF7",c:"EUR",s:"\u20AC",st:"holding",col:"#8B1A6B",
-   th:"Premium consumer beauty brand with unmatched global distribution across mass and luxury segments. Dermatological Beauty and Luxe divisions compound at superior margins. Emerging market penetration adds a long-duration growth vector.",
-   p:330,tg:null,ul:"Long",ks:[["Segments","Mass + Luxury + Pharma"],["Dividend yield","~2%"],["9-year return","+78%"],["Status","Long"]],
-   pr:[185,200,255,295,385,340,420,380,360,330]},
-  {t:"NFLX",n:"Netflix, Inc.",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#C0392B",
-   th:"Dominant global streaming platform. Password-sharing enforcement, ad-tier rollout, and pricing discipline have structurally improved profitability. Global content moat deepens as the subscriber base scales — content ROI improves with each new market. 9-year return +721%.",
-   p:1150,tg:null,ul:"Long",ks:[["Global subscribers","~300M+"],["Revenue model","Subscription + Ads"],["9-year return","+721%"],["Status","Long"]],
-   pr:[140,265,325,540,610,295,480,680,980,1150]},
-  {t:"CMG",n:"Chipotle Mexican Grill",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#2E6B0F",
-   th:"High-conviction fast-casual compounder. Restaurant-level margins consistently above 25% on a fully company-owned model. 7,000+ addressable US locations vs ~3,500 current. International expansion adds a second growth vector. Prices reflect post-50:1 split (June 2024). 9-year return +759%.",
-   p:55,tg:null,ul:"Long",ks:[["Restaurant margin","~25%+"],["Locations","~3,500 current"],["Addressable","7,000+ US sites"],["9-year return","+759%"]],
-   pr:[6.4,10,16.6,25.6,35.4,29,42,52,58,55]},
-  {t:"SBUX",n:"Starbucks Corporation",x:"NASDAQ",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#1B5E20",
-   th:"Global coffee brand undergoing operational turnaround under Brian Niccol. Premium brand recognition provides structural pricing power. Loyalty program 35M+ members creates recurring revenue moat. International expansion, particularly in China, provides long-duration runway.",
-   p:85,tg:null,ul:"Long",ks:[["Loyalty members","35M+ active"],["Int'l locations","30,000+"],["CEO","Brian Niccol (turnaround)"],["Status","Watch"]],
-   pr:[56,56,88,95,115,88,100,90,80,85]},
-  {t:"TGT",n:"Target Corporation",x:"NYSE",f:"\uD83C\uDDFA\uD83C\uDDF8",c:"USD",s:"$",st:"holding",col:"#D35400",
-   th:"Omnichannel retailer with differentiated owned-brand portfolio. Same-day delivery and Drive Up fulfillment have structurally upgraded the customer value proposition. Current valuation near multi-year lows reflects macro headwinds, not terminal impairment of the business model.",
-   p:105,tg:null,ul:"Long",ks:[["Model","Omnichannel"],["Owned brands","Differentiated portfolio"],["Valuation","Near multi-year lows"],["Status","Cyclical watch"]],
-   pr:[68,72,80,95,250,175,125,155,130,105]},
-];
 
-function cr(p){const v=p.filter(x=>x!==null);return(v[v.length-1]-v[0])/v[0]*100}
-function na(p){const base=p.find(x=>x!==null);return p.map(v=>v===null?null:+(v/base*100).toFixed(2))}
-function portAgg(){
-  return YEARS.map((_,i)=>{
-    const vals=S.map(s=>{
-      if(s.pr[i]===null){const base=s.pr.find(x=>x!==null);return base?100:100}
-      const base=s.pr.find(x=>x!==null);
-      return base?+(s.pr[i]/base*100).toFixed(2):100;
-    });
-    return +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2);
-  });
+const TIMELINE=["Jan '17", "Jan '18", "Jan '19", "Jan '20", "Jan '21", "Jan '22", "Apr '22", "Dec '22", "Jan '23", "Aug '23", "Oct '23", "Dec '23", "Jan '24", "Jun '24", "Dec '24", "Jan '25", "Apr '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26", "May '26", "Jun '26", "Jul '26"];
+const SP500_ANCHORS={"0": 2250, "1": 2680, "2": 2510, "3": 3265, "4": 3714, "5": 4515, "8": 3824, "12": 4769, "15": 5868, "23": 5850};
+const S=[{"t": "GNTX", "n": "Gentex Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#1E5BA8", "th": "Digital cockpit infrastructure platform mispriced on EV disruption fears. The EV transition expands addressable surface area per vehicle. Converted from research memo to an active position in June 2026.", "ks": [["FDM penetration", "~7%"], ["Core gross margin", "34.7%"], ["Position since", "Jun 2026"]], "anchors": {"0": 20, "1": 17, "2": 25, "3": 30, "4": 35, "5": 25, "8": 26, "12": 28, "15": 35, "23": 25}, "entry": 22, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": "GNTX_TianliSam_Dong.docx", "partialExit": null}, {"t": "WINA", "n": "Winmark Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#92700F", "th": "Asset-light royalty engine masquerading as a retailer. 100% Q1 renewal rate, 75-80% incremental margins. Converted from research memo to an active position in June 2026.", "ks": [["Normalized EPS target", "$15.50–16.00"], ["Position since", "Jun 2026"]], "anchors": {"0": 175, "1": 220, "2": 300, "3": 260, "4": 380, "5": 340, "8": 400, "12": 455, "15": 480, "23": 424}, "entry": 22, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": "WINA_TianliSam_Dong.docx", "partialExit": null}, {"t": "PLMR", "n": "Palomar Holdings", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#2B6B30", "th": "Proprietary data-driven underwriting platform in specialty property lines. FY2025 adj. combined ratio 72.7%, adj. ROE 25.9%. Converted from research memo to an active position in June 2026.", "ks": [["Adj. combined ratio", "72.7% (FY2025)"], ["Position since", "Jun 2026"]], "anchors": {"2": 18, "3": 70, "4": 100, "5": 55, "8": 65, "12": 95, "15": 140, "23": 114}, "entry": 22, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": "PLMR_TianliSam_Dong.docx", "partialExit": null}, {"t": "300750", "n": "Contemporary Amperex Technology", "x": "SZSE", "f": "🇨🇳", "c": "CNY", "s": "¥", "col": "#0B7B6B", "th": "DCF-anchored analysis with Bloomberg terminal data. Intrinsic value 548 RMB vs 408 RMB current, 51:1 buy-to-sell analyst ratio. Converted from research coverage to an active position in February 2026.", "ks": [["DCF intrinsic value", "548 RMB"], ["Position since", "Feb 2026"]], "anchors": {"1": 40, "2": 45, "3": 90, "4": 500, "5": 380, "8": 190, "12": 230, "15": 250, "23": 408}, "entry": 19, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": "CATL_stock_pitch.pdf", "partialExit": null}, {"t": "6098.T", "n": "Recruit Holdings", "x": "TSE", "f": "🇯🇵", "c": "JPY", "s": "¥", "col": "#B33700", "th": "DCF with Bloomberg data. Target ¥8,022 (+26.7% from initiation), fwd P/E 28.65x. Converted from research coverage to an active position in February 2026, purchased at its 52-week low of ¥6,200.", "ks": [["Entry price", "¥6,200 (Feb 2026 low)"], ["Initiation target", "¥8,022 (+26.7%)"]], "anchors": {"0": 2000, "1": 2800, "2": 3200, "3": 3500, "4": 5000, "5": 5200, "8": 5800, "12": 7500, "15": 9800, "23": 11180, "19": 6200}, "entry": 19, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": "Recruit_Stock_Pitch.pdf", "partialExit": null}, {"t": "8031.T", "n": "Mitsui & Co.", "x": "TSE", "f": "🇯🇵", "c": "JPY", "s": "¥", "col": "#5C3D9E", "th": "Japanese sogo shosha with a 155-year operational track record. Hit ATH ¥6,675 in April 2026. Converted from research coverage to an active position in February 2026.", "ks": [["Dividend yield", "2.59%"], ["Position since", "Feb 2026"]], "anchors": {"0": 1200, "1": 1400, "2": 1400, "3": 1100, "4": 1700, "5": 2600, "8": 3500, "12": 4500, "15": 5800, "23": 4446}, "entry": 19, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "KNSL", "n": "Kinsale Capital Group", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#0B7785", "th": "Best-in-class E&S lines underwriter. Combined ratios consistently below industry peers through the cycle. Converted from research coverage to an active position in June 2026.", "ks": [["9-year return", "+970%"], ["Position since", "Jun 2026"]], "anchors": {"0": 40, "1": 55, "2": 95, "3": 200, "4": 250, "5": 250, "8": 400, "12": 470, "15": 500, "23": 428}, "entry": 22, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "RACE", "n": "Ferrari N.V.", "x": "NYSE", "f": "🇮🇹", "c": "USD", "s": "$", "col": "#C0392B", "th": "Scarcity-model luxury automotive. Ferrari deliberately constrains production to protect pricing power across cycles. FY2025 revenue €7.15B (+7%).", "ks": [["52-week range", "$312–$519"], ["9-year return", "+381%"]], "anchors": {"0": 80, "1": 120, "2": 165, "3": 175, "4": 215, "5": 200, "8": 320, "12": 420, "15": 490, "23": 385}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "TTWO", "n": "Take-Two Interactive", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#2C3E8C", "th": "GTA VI confirmed November 19, 2026 at $79.99. FY2026 net bookings $6.72B (+19%). Position initiated 2022, ahead of the GTA VI catalyst.", "ks": [["GTA VI launch", "Nov 19, 2026"], ["Position since", "2022"]], "anchors": {"0": 70, "1": 115, "2": 90, "3": 160, "4": 185, "5": 120, "8": 150, "12": 165, "15": 200, "23": 255}, "entry": 5, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "AAPL", "n": "Apple Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#4A4A4A", "th": "Hardware-software ecosystem, 2B+ active devices. FY2025 revenue $416B (+6.4%). Core concentrated 10% position since inception.", "ks": [["FY2025 revenue", "$416B (+6.4%)"], ["9-year return", "+927%"]], "anchors": {"0": 30, "1": 40, "2": 72, "3": 130, "4": 176, "5": 130, "8": 190, "12": 195, "15": 222, "23": 308}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": 0.1, "mo": null, "partialExit": null}, {"t": "NVDA", "n": "NVIDIA Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#3A6B0F", "th": "Dominant GPU compute supplier for AI training and inference. CUDA ecosystem creates platform switching costs. Core concentrated 10% position since inception.", "ks": [["Gross margin", "~78%"], ["9-year return", "+1,350%"]], "anchors": {"0": 10, "1": 14, "2": 13, "3": 52, "4": 72, "5": 15, "8": 50, "12": 130, "15": 128, "23": 145}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": 0.1, "mo": null, "partialExit": null}, {"t": "RBC", "n": "Royal Bank of Canada", "x": "TSX", "f": "🇨🇦", "c": "CAD", "s": "$", "col": "#1A237E", "th": "Largest Canadian bank by market cap. CAD $2.4T assets as of April 2026. Dominant retail franchise, growing wealth management.", "ks": [["Total assets", "CAD $2.4T"], ["9-year return", "+117%"]], "anchors": {"0": 90, "1": 105, "2": 107, "3": 85, "4": 130, "5": 135, "8": 120, "12": 140, "15": 165, "23": 195}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "H", "n": "Hydro One Limited", "x": "TSX", "f": "🇨🇦", "c": "CAD", "s": "$", "col": "#C75000", "th": "Regulated electricity T&D utility in Ontario. Rate-base growth ~6%/yr provides multi-year earnings visibility with government-regulated returns.", "ks": [["Rate base growth", "~6%/yr"], ["9-year return", "+130%"]], "anchors": {"0": 20, "1": 22, "2": 23, "3": 25, "4": 30, "5": 35, "8": 37, "12": 40, "15": 42, "23": 46}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "OR.PA", "n": "L'Oréal S.A.", "x": "Euronext", "f": "🇫🇷", "c": "EUR", "s": "€", "col": "#8B1A6B", "th": "Premium consumer beauty brand with unmatched global distribution across mass and luxury segments.", "ks": [["Dividend yield", "~2%"], ["9-year return", "+78%"]], "anchors": {"0": 185, "1": 200, "2": 255, "3": 295, "4": 385, "5": 340, "8": 420, "12": 380, "15": 360, "23": 330}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "NFLX", "n": "Netflix, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#C0392B", "th": "Dominant global streaming platform. Password-sharing enforcement, ad-tier rollout, and pricing discipline have structurally improved profitability. Position initiated January 2023.", "ks": [["Global subscribers", "~300M+"], ["Position since", "Jan 2023"]], "anchors": {"0": 140, "1": 265, "2": 325, "3": 540, "4": 610, "5": 295, "8": 480, "12": 680, "15": 980, "23": 1150}, "entry": 8, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "CMG", "n": "Chipotle Mexican Grill", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#2E6B0F", "th": "High-conviction fast-casual compounder. Restaurant-level margins consistently above 25%. Prices reflect post-50:1 split (June 2024). Position built up from 2019.", "ks": [["Restaurant margin", "~25%+"], ["Position since", "2019"]], "anchors": {"0": 6.4, "1": 10, "2": 16.6, "3": 25.6, "4": 35.4, "5": 29, "8": 42, "12": 52, "15": 58, "23": 55}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "SBUX", "n": "Starbucks Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#1B5E20", "th": "Global coffee brand undergoing operational turnaround under Brian Niccol. Loyalty program 35M+ members creates recurring revenue moat. Position built up from 2019.", "ks": [["Loyalty members", "35M+ active"], ["Position since", "2019"]], "anchors": {"0": 56, "1": 56, "2": 88, "3": 95, "4": 115, "5": 88, "8": 100, "12": 90, "15": 80, "23": 85}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "TGT", "n": "Target Corporation", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#D35400", "th": "Omnichannel retailer with differentiated owned-brand portfolio. Same-day delivery and Drive Up fulfillment have structurally upgraded the value proposition. Position built up from 2019.", "ks": [["Model", "Omnichannel"], ["Position since", "2019"]], "anchors": {"0": 68, "1": 72, "2": 80, "3": 95, "4": 250, "5": 175, "8": 125, "12": 155, "15": 130, "23": 105}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "TSLA", "n": "Tesla, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#CC0000", "th": "Vertically integrated EV, energy storage, and robotics platform. Q2 2026 deliveries beat consensus by 18%. 40% of the position was sold in May 2026 after the stock exceeded $430; the remaining 60% stays on for FSD/robotaxi/Optimus optionality.", "ks": [["Q2 2026 deliveries", "480,126 (+25% YoY)"], ["40% sold", "May 2026 @ $430"]], "anchors": {"0": 15, "1": 21, "2": 21, "3": 29, "4": 293, "5": 333, "8": 108, "12": 248, "15": 400, "23": 400, "21": 430}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": 0.05, "mo": null, "partialExit": {"idx": 21, "frac": 0.4, "price": 430}}, {"t": "MC", "n": "LVMH Moët Hennessy Louis Vuitton", "x": "Euronext", "f": "🇫🇷", "c": "EUR", "s": "€", "col": "#4A2C1B", "th": "The world's dominant luxury conglomerate. Chinese and European demand softness pulled shares well off the 2023 all-time high. Position built from 2019, closed January 2025.", "ks": [["Off 2023 ATH", "~40%"], ["Closed", "Jan 2025"]], "anchors": {"0": 185, "1": 265, "2": 245, "3": 385, "4": 460, "5": 700, "8": 750, "12": 790, "15": 620, "23": 495}, "entry": 2, "exit": 15, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "DIS", "n": "The Walt Disney Company", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#113CCF", "th": "Irreplaceable IP library across Marvel, Pixar, Star Wars, and Disney animation. Position initiated January 2023, closed March 2026.", "ks": [["Streaming", "Disney+, Hulu, ESPN"], ["Closed", "Mar 2026"]], "anchors": {"0": 105, "1": 112, "2": 109, "3": 145, "4": 170, "5": 150, "8": 85, "12": 90, "15": 110, "23": 97}, "entry": 8, "exit": 20, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "PLNT", "n": "Planet Fitness, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#6C2EB5", "th": "Asset-light franchise model in value gym memberships. Low price point drives recurring, recession-resilient membership revenue. Position built up from 2019.", "ks": [["Model", "Franchise + Corporate clubs"], ["Position since", "2019"]], "anchors": {"0": 19, "1": 24, "2": 27, "3": 68, "4": 65, "5": 78, "8": 72, "12": 65, "15": 75, "23": 54}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "LULU", "n": "lululemon athletica inc.", "x": "NASDAQ", "f": "🇨🇦", "c": "USD", "s": "$", "col": "#DA291C", "th": "Premium athletic apparel brand with a loyal, high-margin customer base. Position built from 2019, closed March 2026 after a prolonged slowdown in US comps.", "ks": [["P/E", "~9.6x (de-rated)"], ["Closed", "Mar 2026"]], "anchors": {"0": 65, "1": 82, "2": 124, "3": 218, "4": 326, "5": 385, "8": 330, "12": 490, "15": 380, "23": 117}, "entry": 2, "exit": 20, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "AMD", "n": "Advanced Micro Devices, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#ED1C24", "th": "Second-source AI accelerator supplier riding the same buildout as NVIDIA, anchored by a multiyear Meta Instinct GPU agreement. Core concentrated 5% position since inception.", "ks": [["Meta deal", "Up to 6GW Instinct GPUs"], ["9-year return", "+4,991%"]], "anchors": {"0": 11, "1": 11, "2": 19, "3": 49, "4": 92, "5": 143, "8": 67, "12": 147, "15": 124, "23": 560}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": 0.05, "mo": null, "partialExit": null}, {"t": "META", "n": "Meta Platforms, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#0668E1", "th": "Dominant social/advertising franchise now pivoting excess AI compute into a nascent cloud business. Survived a near-70% 2022 drawdown to become one of the decade's best compounders.", "ks": [["2026 capex guide", "$125–145B"], ["9-year return", "+362%"]], "anchors": {"0": 130, "1": 186, "2": 150, "3": 208, "4": 257, "5": 330, "8": 135, "12": 355, "15": 610, "23": 600}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "GOOGL", "n": "Alphabet Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#4285F4", "th": "Search, YouTube, Cloud, and Waymo under one roof — an entrenched cash-generative monopoly with genuine AI and autonomy optionality.", "ks": [["Cloud growth", "Accelerating"], ["9-year return", "+800%"]], "anchors": {"0": 40, "1": 59, "2": 54, "3": 68, "4": 87, "5": 145, "8": 89, "12": 142, "15": 195, "23": 360}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "9983", "n": "Fast Retailing Co. (Uniqlo)", "x": "TSE", "f": "🇯🇵", "c": "JPY", "s": "¥", "col": "#FF0000", "th": "Uniqlo's parent — a global apparel platform built on affordable, functional basics. Position initiated August 2023.", "ks": [["Largest profit segment", "Uniqlo International"], ["Position since", "Aug 2023"]], "anchors": {"0": 11700, "1": 14700, "2": 15700, "3": 20000, "4": 27700, "5": 19000, "8": 24000, "12": 30000, "15": 55000, "23": 85000}, "entry": 9, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "ETSY", "n": "Etsy, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#F45800", "th": "Two-sided marketplace for handmade and vintage goods, now including Depop. Position built from 2019, closed January 2025 after a prolonged post-2021 decline.", "ks": [["Off 2021 ATH", "~80%"], ["Closed", "Jan 2025"]], "anchors": {"0": 11, "1": 21, "2": 46, "3": 44, "4": 121, "5": 187, "8": 120, "12": 90, "15": 55, "23": 63}, "entry": 2, "exit": 15, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "PYPL", "n": "PayPal Holdings, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#003087", "th": "Legacy digital-payments leader undergoing restructuring under new CEO Enrique Lores. Closed December 2025 — a clear example that a great brand alone doesn't guarantee returns.", "ks": [["Restructuring", "~20% headcount cut"], ["Closed", "Dec 2025"]], "anchors": {"0": 40, "1": 73, "2": 85, "3": 108, "4": 239, "5": 185, "8": 70, "12": 60, "15": 85, "23": 45}, "entry": 0, "exit": 17, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "V", "n": "Visa Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#1A1F71", "th": "Toll-booth economics on global electronic payments — asset-light, high-margin, structurally levered to the cash-to-card shift.", "ks": [["Operating margin", "~65%+"], ["9-year return", "+315%"]], "anchors": {"0": 82, "1": 112, "2": 130, "3": 187, "4": 213, "5": 216, "8": 210, "12": 257, "15": 315, "23": 340}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "JPM", "n": "JPMorgan Chase & Co.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#005EB8", "th": "America's largest bank by market cap, with a 'fortress balance sheet' that has outgrown peers through multiple credit cycles. Position initiated October 2023.", "ks": [["FY2025 revenue", "$168.2B"], ["Position since", "Oct 2023"]], "anchors": {"0": 86, "1": 108, "2": 101, "3": 139, "4": 128, "5": 158, "8": 134, "12": 170, "15": 245, "23": 335}, "entry": 10, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "BABA", "n": "Alibaba Group Holding Limited", "x": "NYSE", "f": "🇨🇳", "c": "USD", "s": "$", "col": "#FF6A00", "th": "China's dominant e-commerce and cloud platform, included as direct China-consumer exposure. Regulatory crackdowns have kept the stock well below its 2020 highs.", "ks": [["Off 2020 ATH", "~70%"], ["9-year return", "+6.7%"]], "anchors": {"0": 90, "1": 180, "2": 140, "3": 210, "4": 232, "5": 120, "8": 90, "12": 72, "15": 85, "23": 96}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "AMZN", "n": "Amazon.com, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#FF9900", "th": "E-commerce and cloud-infrastructure compounder — AWS remains the profit engine. Position initiated only after the 20:1 stock split (June 2022), once the lower nominal share price improved accessibility.", "ks": [["AWS", "Core profit engine"], ["Position since", "Post-split, 2023"]], "anchors": {"0": 38, "1": 59, "2": 78, "3": 94, "4": 163, "5": 166, "8": 85, "12": 150, "15": 220, "23": 244}, "entry": 8, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "TD", "n": "Toronto-Dominion Bank", "x": "NYSE", "f": "🇨🇦", "c": "USD", "s": "$", "col": "#54B948", "th": "Canada's second-largest bank, added for cross-border financials diversification alongside RBC; still working through the fallout of its 2024 US anti-money-laundering settlement.", "ks": [["AML settlement", "$3.09B (2024)"], ["Position since", "2016"]], "anchors": {"0": 42, "3": 48, "5": 63, "23": 70}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "MCD", "n": "McDonald's Corporation", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#FFC72C", "th": "The world's largest restaurant franchisor by system sales — real estate and royalty economics provide a defensive, recession-resilient earnings base.", "ks": [["Model", "~95% franchised"], ["Position since", "2016"]], "anchors": {"0": 120, "3": 200, "5": 250, "23": 310}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "NKE", "n": "Nike, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#111111", "th": "Global athletic footwear leader undergoing a demand-generation reset under CEO Elliott Hill. Position closed January 2025 after several difficult years of inventory and wholesale missteps.", "ks": [["CEO", "Elliott Hill (2024–)"], ["Closed", "Jan 2025"]], "anchors": {"0": 53, "3": 100, "5": 166, "15": 75}, "entry": 0, "exit": 15, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "INTC", "n": "Intel Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#0071C5", "th": "Legacy x86 chipmaker attempting a foundry-led turnaround. Position closed in full in December 2023 after the thesis stalled and the foundry strategy failed to show a credible path to profitability.", "ks": [["Foundry strategy", "18A node"], ["Closed", "Dec 2023"]], "anchors": {"2": 48, "4": 60, "5": 50, "11": 44, "23": 38}, "entry": 2, "exit": 11, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "ABNB", "n": "Airbnb, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#FF5A5F", "th": "Short-term rental marketplace pioneer; position closed June 2024 as growth decelerated. Note: Airbnb's real IPO was Dec 2020 — the 2019 start here is an illustrative simplification.", "ks": [["Closed", "Jun 2024"], ["Real IPO", "Dec 2020"]], "anchors": {"2": 40, "4": 145, "8": 84, "13": 150}, "entry": 2, "exit": 13, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "H2", "n": "Hyatt Hotels Corporation", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#C8102E", "th": "Asset-light hotel franchisor pivoting toward fee-based management contracts, following the industry playbook set by Marriott.", "ks": [["Model", "Asset-light, fee-based"], ["Position since", "2019"]], "anchors": {"2": 73, "5": 91, "23": 140}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "MAR", "n": "Marriott International, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#822433", "th": "The world's largest hotel company by room count, with a loyalty-driven, capital-light franchise/management model.", "ks": [["Rooms", "1.6M+ globally"], ["Position since", "2019"]], "anchors": {"2": 113, "5": 172, "23": 280}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "UBER", "n": "Uber Technologies, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#000000", "th": "Ride-hailing and delivery platform that reached sustained GAAP profitability; position closed December 2024 to lock in gains after a strong multi-year re-rating.", "ks": [["Closed", "Dec 2024"], ["Segments", "Mobility, Delivery, Freight"]], "anchors": {"2": 40, "4": 52, "8": 29, "14": 68}, "entry": 2, "exit": 14, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "COST", "n": "Costco Wholesale Corporation", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#005DAA", "th": "Membership warehouse retailer with best-in-class customer loyalty (90%+ renewal) and a margin structure built on membership fees rather than markup.", "ks": [["Membership renewal", "~90%+"], ["Position since", "2019"]], "anchors": {"2": 205, "5": 562, "23": 980}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "LMT", "n": "Lockheed Martin Corporation", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#000034", "th": "The world's largest pure-play defense contractor, added in 2025 for exposure to elevated global defense spending and a multi-decade F-35 backlog.", "ks": [["F-35 program", "Core backlog driver"], ["Position since", "2025"]], "anchors": {"15": 485, "23": 546}, "entry": 15, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "WMT", "n": "Walmart Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#0071CE", "th": "The world's largest retailer by revenue, added in 2020 as a defensive, recession-resilient staples anchor alongside Costco and Target.", "ks": [["Global stores", "10,500+"], ["Split", "3-for-1 (Feb 2024)"]], "anchors": {"3": 40, "12": 52, "23": 100}, "entry": 3, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "SHOP", "n": "Shopify Inc.", "x": "NYSE", "f": "🇨🇦", "c": "USD", "s": "$", "col": "#96BF48", "th": "E-commerce infrastructure platform for independent merchants. Position closed January 2024 after a re-rating following the 2022 logistics divestiture.", "ks": [["Closed", "Jan 2024"], ["Model", "Merchant SaaS + Payments"]], "anchors": {"4": 115, "12": 78}, "entry": 4, "exit": 12, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "AMC", "n": "AMC Entertainment Holdings, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#E4032E", "th": "Largest US movie theater chain — a highly speculative, heavily-diluted post-pandemic survivor. Position closed December 2022 after persistent share dilution eroded the recovery thesis.", "ks": [["Risk profile", "Highly speculative"], ["Closed", "Dec 2022"]], "anchors": {"3": 7, "7": 5, "23": 3}, "entry": 3, "exit": 7, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "EL", "n": "The Estée Lauder Companies Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#000000", "th": "Prestige beauty conglomerate; position closed December 2022 as Chinese travel-retail demand collapsed and inventory de-stocking hit margins.", "ks": [["Closed", "Dec 2022"], ["Key market", "China travel retail"]], "anchors": {"2": 150, "7": 230}, "entry": 2, "exit": 7, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "BB", "n": "BlackBerry Limited", "x": "NYSE", "f": "🇨🇦", "c": "USD", "s": "$", "col": "#000000", "th": "Former smartphone maker turned automotive software (QNX) and cybersecurity company; position closed January 2023 after the pivot failed to translate into consistent profitability.", "ks": [["Closed", "Jan 2023"], ["Segments", "QNX, Cybersecurity"]], "anchors": {"3": 6, "8": 4}, "entry": 3, "exit": 8, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "ATZ", "n": "Aritzia Inc.", "x": "TSX", "f": "🇨🇦", "c": "CAD", "s": "$", "col": "#000000", "th": "Vancouver-based women's fashion retailer executing a successful US expansion, with new-market store productivity consistently exceeding its mature Canadian base.", "ks": [["Growth driver", "US store expansion"], ["Position since", "2019"]], "anchors": {"2": 14, "23": 50}, "entry": 2, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "MGM", "n": "MGM Resorts International", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#B7935F", "th": "Las Vegas Strip and regional casino operator with a majority stake in MGM China (Macau). Weighted 2:1 vs. Caesars given a stronger balance sheet and BetMGM digital optionality.", "ks": [["Macau exposure", "MGM China stake"], ["Digital", "BetMGM JV"]], "anchors": {"8": 34, "23": 40}, "entry": 8, "exit": null, "exitFrac": 1, "wmult": 2, "fixed": null, "mo": null, "partialExit": null}, {"t": "CZR", "n": "Caesars Entertainment, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#000000", "th": "Highly-levered US casino and sports-betting operator; position closed January 2026 as elevated debt service costs continued to outweigh Caesars Digital's growth.", "ks": [["Closed", "Jan 2026"], ["Balance sheet", "Highly levered"]], "anchors": {"8": 48, "18": 30}, "entry": 8, "exit": 18, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "1299.HK", "n": "AIA Group Limited", "x": "HKEX", "f": "🇭🇰", "c": "HKD", "s": "HK$", "col": "#E2231A", "th": "Pan-Asian life insurer with the deepest agency distribution network across the region's fastest-growing insurance markets, held since 2017.", "ks": [["Footprint", "18 Asia-Pacific markets"], ["Model", "Agency-led life insurance"]], "anchors": {"0": 45, "23": 65}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "TJX", "n": "The TJX Companies, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#0072CE", "th": "Off-price retail leader (T.J. Maxx, Marshalls, HomeGoods) whose opportunistic buying model performs well in both strong and weak consumer environments.", "ks": [["Banners", "T.J. Maxx, Marshalls, HomeGoods"], ["Model", "Off-price / treasure hunt"]], "anchors": {"0": 38, "23": 135}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "SWK", "n": "Stanley Black & Decker, Inc.", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#000000", "th": "Global tools and outdoor products manufacturer (DEWALT, CRAFTSMAN, Black+Decker) working through a multiyear margin-recovery program.", "ks": [["Brands", "DEWALT, CRAFTSMAN, B+D"], ["Program", "Global cost realignment"]], "anchors": {"0": 120, "23": 75}, "entry": 0, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "LYFT", "n": "Lyft, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#FF00BF", "th": "US-only ride-hailing challenger to Uber; position closed April 2025 after the stock failed to sustainably re-rate despite reaching profitability.", "ks": [["Closed", "Apr 2025"], ["Market", "US & Canada rideshare"]], "anchors": {"6": 15, "16": 14}, "entry": 6, "exit": 16, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "0700.HK", "n": "Tencent Holdings Limited", "x": "HKEX", "f": "🇭🇰", "c": "HKD", "s": "HK$", "col": "#00A7E1", "th": "Chinese gaming, social media (WeChat), and fintech conglomerate; position closed December 2024 following extended regulatory uncertainty around gaming approvals.", "ks": [["Closed", "Dec 2024"], ["Core assets", "WeChat, gaming, fintech"]], "anchors": {"3": 380, "14": 410}, "entry": 3, "exit": 14, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "1810.HK", "n": "Xiaomi Corporation", "x": "HKEX", "f": "🇭🇰", "c": "HKD", "s": "HK$", "col": "#FF6900", "th": "Consumer electronics and increasingly EV manufacturer (SU7), added in 2023 for exposure to China's smartphone-to-EV crossover story.", "ks": [["New vertical", "SU7 electric vehicles"], ["Position since", "2023"]], "anchors": {"8": 12, "23": 55}, "entry": 8, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "DLTR", "n": "Dollar Tree, Inc.", "x": "NASDAQ", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#00A651", "th": "US discount variety retailer navigating tariff exposure and the divestiture of Family Dollar. Position built from 2021, closed January 2026 as margin pressure from tariff-exposed sourcing persisted.", "ks": [["Divestiture", "Family Dollar (2024)"], ["Closed", "Jan 2026"]], "anchors": {"4": 105, "18": 90, "23": 85}, "entry": 4, "exit": 18, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "AXP", "n": "American Express Company", "x": "NYSE", "f": "🇺🇸", "c": "USD", "s": "$", "col": "#016FD0", "th": "Premium, closed-loop payments network whose affluent cardholder base and membership-fee model differentiate it from mass-market card issuers.", "ks": [["Model", "Closed-loop network + issuer"], ["Position since", "2022"]], "anchors": {"5": 165, "23": 330}, "entry": 5, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}, {"t": "DOL.TO", "n": "Dollarama Inc.", "x": "TSX", "f": "🇨🇦", "c": "CAD", "s": "$", "col": "#62A744", "th": "Canada's dominant value retailer with a decade-long track record of same-store sales growth and a growing stake in LatAm value retailer Dollarcity.", "ks": [["LatAm exposure", "Dollarcity stake"], ["Position since", "2023"]], "anchors": {"8": 85, "23": 175}, "entry": 8, "exit": null, "exitFrac": 1, "wmult": 1, "fixed": null, "mo": null, "partialExit": null}];
+const START_CAPITAL=10000;
+const ANNUAL_CONTRIB=2000;
+const CONTRIB_IDXS=new Set([1,2,3,4,5,8,12,15,18]);
+
+function genSeries(anchors,entry,exit){
+  const full=new Array(TIMELINE.length).fill(null);
+  Object.keys(anchors).forEach(k=>{full[+k]=anchors[k];});
+  for(let i=0;i<full.length;i++){
+    if(full[i]===null){
+      let a=i-1;while(a>=0&&full[a]===null)a--;
+      let b=i+1;while(b<full.length&&full[b]===null)b++;
+      if(a>=0&&b<full.length){
+        const t=(i-a)/(b-a);
+        full[i]=+Math.exp(Math.log(full[a])+t*(Math.log(full[b])-Math.log(full[a]))).toFixed(4);
+      }
+    }
+  }
+  return full.map((v,i)=>((entry!=null&&i<entry)||(exit!=null&&i>exit))?null:v);
 }
-const spN=na(SP500);
+const SP500=genSeries(SP500_ANCHORS,0,null);
+S.forEach(s=>{
+  s.series=genSeries(s.anchors,s.entry,s.exit);
+  const rev=[...s.series].reverse().find(v=>v!=null);
+  s.p=rev!=null?rev:0;
+});
 
-function badge(st){
-  if(st==="memo")return{bg:"rgba(139,105,20,0.1)",c:"#8B6914",br:"rgba(139,105,20,0.25)",l:"ACTIVE MEMO"};
-  if(st==="research")return{bg:"rgba(45,90,39,0.1)",c:"#2D5A27",br:"rgba(45,90,39,0.25)",l:"RESEARCH"};
-  return{bg:"rgba(43,87,151,0.1)",c:"#2B5797",br:"rgba(43,87,151,0.25)",l:"HOLDING"};
+const FIXED={NVDA:0.10,AAPL:0.10,TSLA:0.05,AMD:0.05};
+let BASE_UNIT=0;
+(function(){
+  let sumMult=0;
+  S.forEach(s=>{ if(FIXED[s.t]===undefined) sumMult+=s.wmult; });
+  BASE_UNIT=0.70/sumMult;
+})();
+function tickerWeight(s,idx){
+  let w = FIXED[s.t]!==undefined ? FIXED[s.t] : s.wmult*BASE_UNIT;
+  if(s.partialExit && idx>=s.partialExit.idx) w*=(1-s.partialExit.frac);
+  return w;
+}
+function simulate(gainInjections){
+  let value=START_CAPITAL;
+  const values=[value];
+  for(let i=1;i<TIMELINE.length;i++){
+    let wSum=0,wRet=0;
+    S.forEach(s=>{
+      const p0=s.series[i-1],p1=s.series[i];
+      if(p0!=null&&p1!=null){
+        const w=tickerWeight(s,i);
+        wSum+=w; wRet+=w*(p1/p0-1);
+      }
+    });
+    const ret = wSum>0?wRet/wSum:0;
+    value=value*(1+ret);
+    if(CONTRIB_IDXS.has(i)) value+=ANNUAL_CONTRIB;
+    if(gainInjections && gainInjections[i]) value+=gainInjections[i];
+    values.push(+value.toFixed(2));
+  }
+  return values;
+}
+function simulateSP(){
+  let value=START_CAPITAL;
+  const values=[value];
+  for(let i=1;i<TIMELINE.length;i++){
+    const ret=SP500[i]/SP500[i-1]-1;
+    value=value*(1+ret);
+    if(CONTRIB_IDXS.has(i)) value+=ANNUAL_CONTRIB;
+    values.push(+value.toFixed(2));
+  }
+  return values;
+}
+
+const BASELINE=simulate(null);
+const REALIZED=[];
+S.forEach(s=>{
+  if(s.exit!=null){
+    const w=tickerWeight(s,s.entry)*(s.exitFrac||1);
+    const entryVal=BASELINE[s.entry]*w;
+    const p0=s.series[s.entry], p1=s.series[s.exit];
+    const exitVal=entryVal*(p1/p0);
+    REALIZED.push({t:s.t,n:s.n,f:s.f,col:s.col,entryIdx:s.entry,exitIdx:s.exit,entryVal,exitVal,gain:exitVal-entryVal,retPct:(p1/p0-1)*100,frac:s.exitFrac||1,partial:false});
+  }
+  if(s.partialExit){
+    const w=tickerWeight(s,s.entry)*s.partialExit.frac;
+    const entryVal=BASELINE[s.entry]*w;
+    const p0=s.series[s.entry], p1=s.partialExit.price;
+    const exitVal=entryVal*(p1/p0);
+    REALIZED.push({t:s.t,n:s.n,f:s.f,col:s.col,entryIdx:s.entry,exitIdx:s.partialExit.idx,entryVal,exitVal,gain:exitVal-entryVal,retPct:(p1/p0-1)*100,frac:s.partialExit.frac,partial:true});
+  }
+});
+const GAIN_INJECTIONS={};
+REALIZED.forEach(r=>{ if(r.gain>0){ GAIN_INJECTIONS[r.exitIdx]=(GAIN_INJECTIONS[r.exitIdx]||0)+r.gain; } });
+const FINAL=simulate(GAIN_INJECTIONS);
+const SP_SERIES=simulateSP();
+
+function na(p){
+  const base=p.find(x=>x!==null);
+  return p.map(v=>v===null?null:(base?+(v/base*100).toFixed(3):100));
+}
+function cr(p){
+  const v=p.filter(x=>x!==null);
+  return v.length>1?((v[v.length-1]-v[0])/v[0]*100):0;
+}
+
+function fmtPrice(s){
+  return s.c==="USD" ? "$"+s.p.toLocaleString() : s.s+s.p.toLocaleString()+" "+s.c;
 }
 
 function card(s){
-  const r=cr(s.pr),pos=r>=0,rc=pos?"#166534":"#9B1C1C";
-  const b=badge(s.st);
-  const id="sp_"+s.t.replace(/[^a-zA-Z0-9]/g,"_");
-  const fp=s.c==="EUR"?"\u20AC"+s.p.toLocaleString()+" EUR":s.c==="JPY"?"\u00A5"+s.p.toLocaleString()+" JPY":s.c==="CAD"?"$"+s.p.toLocaleString()+" CAD":"$"+s.p.toLocaleString();
-  const ft=s.tg?"$"+s.tg:"";
+  const id="sp_"+(s.t+"_"+s.x).replace(/[^a-zA-Z0-9]/g,"_");
+  const r=cr(s.series); const pos=r>=0; const rc=pos?"#166534":"#9B1C1C";
+  const fp=fmtPrice(s);
   const ks=s.ks.map(([l,v])=>`<div class="ks">${l}: <span class="ks-v">${v}</span></div>`).join("");
-  const mr=s.mo?`<div class="memo-ref"><span style="font-size:12px">${s.mo.endsWith('.pdf')?'&#128196;':'&#128196;'}</span><span class="memo-name">${s.mo}</span></div>`:"";
-  const tb=s.st==="memo"?"#8B6914":s.st==="research"?"#2D5A27":s.col;
-  return`<div class="card" style="border-top:3px solid ${tb}">
+  const mr=s.mo?`<div class="memo-ref"><span style="font-size:12px">&#128196;</span><span class="memo-name">${s.mo}</span></div>`:"";
+  const partialNote = s.partialExit ? `<div style="font-size:8px;color:#8B6914;font-weight:600;margin-top:2px">${(s.partialExit.frac*100).toFixed(0)}% closed ${TIMELINE[s.partialExit.idx]} @ ${s.s}${s.partialExit.price}</div>` : "";
+  return`<div class="card" style="border-top:3px solid ${s.col}">
   <div class="card-top">
     <div>
       <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px">
@@ -272,61 +299,80 @@ function card(s){
       </div>
       <div class="cname">${s.n}</div>
     </div>
-    <div class="sbadge" style="background:${b.bg};color:${b.c};border:1px solid ${b.br}">${b.l}</div>
+    <div class="sbadge" style="background:#EEF2FF;color:#1B2A4A;border:1px solid #C7D2FE">HOLDING</div>
   </div>
   <div class="sparkrow">
     <div class="sparkwrap"><canvas id="${id}"></canvas></div>
-    <div class="ret"><div class="ret-n" style="color:${rc}">${pos?"+":""}${r.toFixed(1)}%</div><div class="ret-l">9-YR RETURN</div></div>
+    <div class="ret"><div class="ret-n" style="color:${rc}">${pos?"+":""}${r.toFixed(1)}%</div><div class="ret-l">SINCE ENTRY</div></div>
   </div>
   <div class="pricerow">
     <div><div class="pl">Current</div><div class="pv">${fp}</div></div>
-    ${s.tg?`<div style="text-align:center"><div class="pl">Target</div><div class="tv">${ft}</div></div>`:""}
-    <div style="text-align:right"><div class="pl">Position</div><div class="tv">${s.ul}</div></div>
+    <div style="text-align:center"><div class="pl">Entry</div><div class="tv">${TIMELINE[s.entry]}</div></div>
+    <div style="text-align:right"><div class="pl">Weight</div><div class="tv">${(tickerWeight(s,23)*100).toFixed(2)}%</div></div>
   </div>
   <p class="thesis">${s.th}</p>
+  ${partialNote}
   <div class="kstats">${ks}</div>
   ${mr}
 </div>`;
 }
 
 function spark(s){
-  const el=document.getElementById("sp_"+s.t.replace(/[^a-zA-Z0-9]/g,"_"));if(!el)return;
-  const pos=cr(s.pr)>=0;
+  const id="sp_"+(s.t+"_"+s.x).replace(/[^a-zA-Z0-9]/g,"_");
+  const el=document.getElementById(id);if(!el)return;
+  const pos=cr(s.series)>=0;
   const lc=pos?"#166534":"#9B1C1C";
   const fc=pos?"rgba(22,101,52,0.12)":"rgba(153,27,27,0.10)";
-  new Chart(el,{type:"line",data:{labels:YEARS,datasets:[{data:na(s.pr),borderColor:lc,borderWidth:1.5,fill:true,backgroundColor:fc,pointRadius:0,tension:0.3,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+  new Chart(el,{type:"line",data:{labels:TIMELINE,datasets:[{data:na(s.series),borderColor:lc,borderWidth:1.5,fill:true,backgroundColor:fc,pointRadius:0,tension:0.3,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
 }
 
 let ci=null;
-function buildChart(f){
+function buildChart(){
   if(ci){ci.destroy();ci=null;}
   const el=document.getElementById("cc");if(!el)return;
-  const shown=f==="all"?[]:f==="memo"?S.filter(s=>s.st==="memo"):f==="research"?S.filter(s=>s.st==="research"):S.filter(s=>s.st==="holding");
-  const agg=portAgg();
-  const pRet=(agg[agg.length-1]-100).toFixed(1);
-  const sRet=(spN[spN.length-1]-100).toFixed(1);
-  const alpha=(parseFloat(pRet)-parseFloat(sRet)).toFixed(1);
+  const finalV=FINAL[FINAL.length-1], spV=SP_SERIES[SP_SERIES.length-1];
+  const totalContrib=START_CAPITAL+CONTRIB_IDXS.size*ANNUAL_CONTRIB;
+  const totalRealizedGain=REALIZED.reduce((a,r)=>a+r.gain,0);
+  const totalRet=((finalV-totalContrib)/totalContrib*100).toFixed(1);
+  const fmt=v=>"$"+Math.round(v).toLocaleString();
   const cst=document.getElementById("cst");
-  if(cst)cst.innerHTML=`<div><div class="cs-label">Portfolio (EW)</div><div class="cs-val" style="color:${parseFloat(pRet)>=0?"#166534":"#9B1C1C"}">${parseFloat(pRet)>=0?"+":""}${pRet}%</div></div><div><div class="cs-label">S&amp;P 500</div><div class="cs-val" style="color:#374151">${parseFloat(sRet)>=0?"+":""}${sRet}%</div></div><div><div class="cs-label">Alpha (9yr)</div><div class="cs-val" style="color:${parseFloat(alpha)>=0?"#8B6914":"#9B1C1C"}">${parseFloat(alpha)>=0?"+":""}${alpha}%</div></div>`;
-  const leg=document.getElementById("indLeg");
-  if(leg)leg.innerHTML=shown.map(s=>`<div class="cl-item"><div class="cl-solid" style="background:${s.col}"></div><span>${s.t}</span></div>`).join("");
-  const ds=[...shown.map(s=>({label:s.t,data:na(s.pr),borderColor:s.col,borderWidth:1.5,pointRadius:0,tension:0.3,fill:false,spanGaps:true})),{label:"S&P 500",data:spN,borderColor:"#8B6914",borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.3,fill:false},{label:"Portfolio",data:agg,borderColor:"#1B2A4A",borderWidth:2.5,pointRadius:0,tension:0.3,fill:false}];
-  ci=new Chart(el,{type:"line",data:{labels:YEARS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:"#FFFFFF",borderColor:"#E5E7EB",borderWidth:1,titleColor:"#374151",bodyColor:"#6B7280",padding:10,boxShadow:"0 4px 6px rgba(0,0,0,0.1)",callbacks:{label:ctx=>{const ok=["Portfolio","S&P 500",...shown.map(s=>s.t)];if(!ok.includes(ctx.dataset.label))return null;const v=(ctx.raw-100).toFixed(1);return` ${ctx.dataset.label}: ${v>=0?"+":""}${v}%`}}}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:9},maxRotation:0}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:9},callback:v=>v===100?"Base":v>100?`+${(v-100).toFixed(0)}%`:`${(v-100).toFixed(0)}%`}}}}});
+  if(cst)cst.innerHTML=`<div><div class="cs-label">Initial + Contributions</div><div class="cs-val" style="color:#374151">${fmt(totalContrib)}</div></div><div><div class="cs-label">Portfolio Value Today</div><div class="cs-val" style="color:${finalV>=totalContrib?"#166534":"#9B1C1C"}">${fmt(finalV)}</div></div><div><div class="cs-label">Total Return</div><div class="cs-val" style="color:${parseFloat(totalRet)>=0?"#166534":"#9B1C1C"}">${parseFloat(totalRet)>=0?"+":""}${totalRet}%</div></div><div><div class="cs-label">vs S&amp;P 500 (same cash flows)</div><div class="cs-val" style="color:#8B6914">${fmt(spV)}</div></div><div><div class="cs-label">Realized Gains Redeployed</div><div class="cs-val" style="color:${totalRealizedGain>=0?"#166534":"#9B1C1C"}">${totalRealizedGain>=0?"+":""}${fmt(totalRealizedGain)}</div></div>`;
+  ci=new Chart(el,{type:"line",data:{labels:TIMELINE,datasets:[
+    {label:"S&P 500",data:SP_SERIES,borderColor:"#8B6914",borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.3,fill:false},
+    {label:"Portfolio",data:FINAL,borderColor:"#1B2A4A",borderWidth:2.5,pointRadius:0,tension:0.3,fill:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:"#FFFFFF",borderColor:"#E5E7EB",borderWidth:1,titleColor:"#374151",bodyColor:"#6B7280",padding:10,callbacks:{label:ctx=>` ${ctx.dataset.label}: $${Math.round(ctx.raw).toLocaleString()}`}}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:8},maxRotation:60,minRotation:60}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"#9CA3AF",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"}}}}});
 }
 
-let cf="all";
-function render(){
-  const vis=cf==="all"?S:S.filter(s=>s.st===cf);
-  document.getElementById("grid").innerHTML=vis.map(card).join("");
-  vis.forEach(spark);
-  buildChart(cf);
+function renderRealized(){
+  const rows=REALIZED.slice().sort((a,b)=>a.exitIdx-b.exitIdx).map(r=>{
+    const pos=r.gain>=0; const color=pos?"#166534":"#9B1C1C";
+    const label=r.partial?`${(r.frac*100).toFixed(0)}% of position`:"Full position";
+    return `<div class="real-row">
+      <div class="real-tkr"><span style="font-size:13px">${r.f}</span> <span class="tkr" style="color:${r.col}">${r.t}</span><div class="real-name">${r.n}</div></div>
+      <div class="real-dates">${TIMELINE[r.entryIdx]} &rarr; ${TIMELINE[r.exitIdx]}<div class="real-frac">${label}</div></div>
+      <div class="real-vals">$${Math.round(r.entryVal).toLocaleString()} &rarr; $${Math.round(r.exitVal).toLocaleString()}</div>
+      <div class="real-gain" style="color:${color}">${pos?"+":""}$${Math.round(r.gain).toLocaleString()}<div style="font-size:9px">${pos?"+":""}${r.retPct.toFixed(1)}%</div></div>
+    </div>`;
+  }).join("");
+  document.getElementById("realizedList").innerHTML=rows;
+  const totalGain=REALIZED.reduce((a,r)=>a+r.gain,0);
+  const totalGainEl=document.getElementById("realizedStats");
+  if(totalGainEl){
+    const pos=totalGain>=0;
+    const winners=REALIZED.filter(r=>r.gain>=0).length;
+    totalGainEl.innerHTML=`<div><div class="cs-label">Positions Closed</div><div class="cs-val" style="color:#374151">${REALIZED.length}</div></div><div><div class="cs-label">Winners / Losers</div><div class="cs-val" style="color:#374151">${winners} / ${REALIZED.length-winners}</div></div><div><div class="cs-label">Total Realized P&amp;L</div><div class="cs-val" style="color:${pos?"#166534":"#9B1C1C"}">${pos?"+":""}$${Math.round(totalGain).toLocaleString()}</div></div>`;
+  }
 }
-document.getElementById("tabBar").addEventListener("click",e=>{
-  const b=e.target.closest(".tab");if(!b)return;
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
-  b.classList.add("on");cf=b.dataset.f;render();
-});
+
+function render(){
+  const active=S.filter(s=>s.exit===null);
+  document.getElementById("grid").innerHTML=active.map(card).join("");
+  active.forEach(spark);
+  buildChart();
+  renderRealized();
+}
 render();
+
 </script>
 </body>
 </html>
