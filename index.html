@@ -256,6 +256,31 @@ body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMac
 .report-dl{font-size:9px;font-weight:700;letter-spacing:.06em;padding:7px 14px;border-radius:20px;background:#1B2A4A;color:#F5F0E8;text-decoration:none;white-space:nowrap;transition:background .15s;flex-shrink:0}
 .report-dl:hover{background:#8B6914}
 .report-note{font-size:9px;color:#9CA3AF;margin-top:16px;line-height:1.6}
+.dcf-tool{margin-top:24px;padding-top:24px;border-top:1px solid #E5E0D6}
+.dcf-presets{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.dcf-preset-btn{font-size:9px;font-weight:700;letter-spacing:.06em;padding:6px 14px;border-radius:20px;border:1px solid #DDD8CF;background:#FFFFFF;color:#9CA3AF;cursor:pointer;text-transform:uppercase;transition:all .15s}
+.dcf-preset-btn.on{background:#1B2A4A;color:#F5F0E8;border-color:#1B2A4A}
+.dcf-preset-btn:not(.on):hover{color:#374151}
+.dcf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;margin-bottom:16px}
+.dcf-field label{display:block;font-size:8px;font-weight:700;letter-spacing:.05em;color:#9CA3AF;text-transform:uppercase;margin-bottom:5px}
+.dcf-field input{width:100%;padding:8px 10px;font-size:12px;border:1px solid #DDD8CF;border-radius:7px;background:#FFFFFF;color:#374151;font-family:"JetBrains Mono",monospace;box-sizing:border-box}
+.dcf-field input:focus{outline:none;border-color:#8B6914}
+.dcf-run-btn{width:100%;padding:11px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#1B2A4A;color:#F5F0E8;border:none;border-radius:8px;cursor:pointer;transition:background .15s}
+.dcf-run-btn:hover{background:#8B6914}
+.dcf-result{margin-top:18px}
+.dcf-headline{text-align:center;padding:22px 16px;background:#FCFAF6;border:1px solid #E5E0D6;border-radius:10px}
+.dcf-headline-label{font-size:8px;font-weight:700;letter-spacing:.08em;color:#9CA3AF;text-transform:uppercase;margin-bottom:8px}
+.dcf-headline-val{font-family:"Playfair Display",serif;font-size:34px;font-weight:700;color:#1B2A4A}
+.dcf-headline-sub{font-size:10px;color:#6B7280;margin-top:8px;line-height:1.6}
+.dcf-context{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:10px;line-height:1.7}
+.dcf-context.mild{background:#EAF4EC;color:#1F5C2C;border:1px solid #C9E4CD}
+.dcf-context.moderate{background:#FDF3E1;color:#8A5B00;border:1px solid #F0DBA8}
+.dcf-context.steep{background:#FBE9E7;color:#9B1C1C;border:1px solid #F3C6C1}
+.dcf-error{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:10px;background:#FBE9E7;color:#9B1C1C;border:1px solid #F3C6C1}
+.dcf-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:10px}
+.dcf-table th{text-align:right;font-size:8px;font-weight:700;letter-spacing:.04em;color:#9CA3AF;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #E5E0D6}
+.dcf-table th:first-child,.dcf-table td:first-child{text-align:left}
+.dcf-table td{text-align:right;padding:6px 8px;font-family:"JetBrains Mono",monospace;color:#374151;border-bottom:1px solid #F3F0E8}
 .scenario-row{margin-top:10px;padding-top:10px;border-top:1px dashed #E5E0D6}
 .scenario-label{font-size:8px;font-weight:700;letter-spacing:.05em;color:#6B7280;text-transform:uppercase;margin-bottom:6px}
 .scenario-sub{font-weight:400;text-transform:none;letter-spacing:0;color:#9CA3AF}
@@ -398,8 +423,34 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
     <div class="manifesto-label">Quantitative Research</div>
     <h2 class="manifesto-title">Quant Models</h2>
     <p class="manifesto-lead">The models running underneath the qualitative thesis &mdash; simulation, technical, and statistical work used to pressure-test position sizing and timing.</p>
+
+    <div class="dcf-tool">
+      <h3 class="manifesto-sub" style="margin-top:0">Reverse DCF &amp; Expectations Analysis</h3>
+      <p>Professional investors spend most of their time asking one question: <b>what does today's price already assume?</b> Instead of forecasting cash flows to arrive at a value, this flips the DCF around &mdash; it takes the current market price as given and solves backward for the revenue growth rate the market must be underwriting, given a margin path, discount rate, and terminal growth assumption.</p>
+      <div class="dcf-presets">
+        <button class="dcf-preset-btn on" data-preset="custom" onclick="loadDCFPreset('custom')">Custom</button>
+        <button class="dcf-preset-btn" data-preset="NVDA" onclick="loadDCFPreset('NVDA')">NVDA</button>
+        <button class="dcf-preset-btn" data-preset="COST" onclick="loadDCFPreset('COST')">COST</button>
+        <button class="dcf-preset-btn" data-preset="AAPL" onclick="loadDCFPreset('AAPL')">AAPL</button>
+      </div>
+      <div class="dcf-grid">
+        <div class="dcf-field"><label>Stock Price ($)</label><input type="number" id="dcfPrice" value="100" step="0.01"></div>
+        <div class="dcf-field"><label>Shares Outstanding (M)</label><input type="number" id="dcfShares" value="1000"></div>
+        <div class="dcf-field"><label>Net Debt / (Net Cash), $M</label><input type="number" id="dcfNetDebt" value="0"></div>
+        <div class="dcf-field"><label>Current Revenue TTM ($M)</label><input type="number" id="dcfRevenue" value="10000"></div>
+        <div class="dcf-field"><label>Current FCF Margin (%)</label><input type="number" id="dcfMargin0" value="15" step="0.1"></div>
+        <div class="dcf-field"><label>Terminal FCF Margin (%)</label><input type="number" id="dcfTermMargin" value="18" step="0.1"></div>
+        <div class="dcf-field"><label>WACC (%)</label><input type="number" id="dcfWacc" value="9" step="0.1"></div>
+        <div class="dcf-field"><label>Terminal Growth (%)</label><input type="number" id="dcfTermGrowth" value="2.5" step="0.1"></div>
+        <div class="dcf-field"><label>Forecast Period (years)</label><input type="number" id="dcfYears" value="10" step="1"></div>
+      </div>
+      <button class="dcf-run-btn" onclick="runReverseDCF()">Solve for Implied Growth</button>
+      <div class="dcf-result" id="dcfResult"></div>
+    </div>
+
+    <h3 class="manifesto-sub">Other Models</h3>
     <div class="report-list" id="quantModelList">
-      <div class="empty-placeholder">No models published yet. Monte Carlo simulations, MACD/technical overlays, and other quantitative work will appear here.</div>
+      <div class="empty-placeholder">No additional models published yet. Monte Carlo simulations, MACD/technical overlays, and other quantitative work will appear here.</div>
     </div>
     <!-- Template for future entries:
     <div class="report-row">
@@ -918,6 +969,107 @@ function renderGrid(){
   document.getElementById("filterCount").textContent=`Showing ${list.length} of ${allActive.length} active positions`;
 }
 
+/* ---- Reverse DCF & Expectations Analysis Tool ---- */
+const DCF_PRESETS={
+  NVDA:{price:197, shares:24300, netDebt:-25000, revenue:130500, margin0:45, termMargin:40, wacc:9, termGrowth:3, years:10,
+        note:"NVIDIA figures are illustrative approximations (FY2025 revenue ~$130.5B, high current FCF margin from the AI compute cycle). Terminal margin assumed to compress toward 40% as competition intensifies."},
+  COST:{price:980, shares:443, netDebt:6000, revenue:275000, margin0:2.5, termMargin:3.0, wacc:8, termGrowth:3, years:10,
+        note:"Costco figures are illustrative approximations (~$275B TTM revenue, thin ~2.5% FCF margin typical of low-markup membership retail)."},
+  AAPL:{price:313, shares:15000, netDebt:0, revenue:416000, margin0:26, termMargin:27, wacc:8.5, termGrowth:3, years:10,
+        note:"Apple figures are illustrative approximations (FY2025 revenue ~$416B, ~26% FCF margin, roughly balanced net debt/cash position)."},
+  custom:{price:100, shares:1000, netDebt:0, revenue:10000, margin0:15, termMargin:18, wacc:9, termGrowth:2.5, years:10,
+        note:"Enter your own assumptions for any company."}
+};
+function loadDCFPreset(key){
+  document.querySelectorAll(".dcf-preset-btn").forEach(b=>b.classList.toggle("on", b.dataset.preset===key));
+  const p=DCF_PRESETS[key];
+  document.getElementById("dcfPrice").value=p.price;
+  document.getElementById("dcfShares").value=p.shares;
+  document.getElementById("dcfNetDebt").value=p.netDebt;
+  document.getElementById("dcfRevenue").value=p.revenue;
+  document.getElementById("dcfMargin0").value=p.margin0;
+  document.getElementById("dcfTermMargin").value=p.termMargin;
+  document.getElementById("dcfWacc").value=p.wacc;
+  document.getElementById("dcfTermGrowth").value=p.termGrowth;
+  document.getElementById("dcfYears").value=p.years;
+  runReverseDCF(p.note);
+}
+function dcfForwardValue(g, revenue0, m0, mT, wacc, termGrowth, years){
+  let pvSum=0, rev=revenue0, fcfN=0;
+  for(let t=1;t<=years;t++){
+    rev = rev*(1+g);
+    const margin = m0 + (mT-m0)*(t/years);
+    const fcf = rev*margin;
+    pvSum += fcf/Math.pow(1+wacc,t);
+    if(t===years) fcfN=fcf;
+  }
+  const tv = fcfN*(1+termGrowth)/(wacc-termGrowth);
+  return {ev: pvSum + tv/Math.pow(1+wacc,years), fcfN};
+}
+function runReverseDCF(noteOverride){
+  const price=+document.getElementById("dcfPrice").value;
+  const shares=+document.getElementById("dcfShares").value;
+  const netDebt=+document.getElementById("dcfNetDebt").value;
+  const revenue0=+document.getElementById("dcfRevenue").value;
+  const m0=(+document.getElementById("dcfMargin0").value)/100;
+  const mT=(+document.getElementById("dcfTermMargin").value)/100;
+  const wacc=(+document.getElementById("dcfWacc").value)/100;
+  const termGrowth=(+document.getElementById("dcfTermGrowth").value)/100;
+  const years=Math.round(+document.getElementById("dcfYears").value);
+  const resultEl=document.getElementById("dcfResult");
+  if(!resultEl) return;
+  if(wacc<=termGrowth){
+    resultEl.innerHTML=`<div class="dcf-error">WACC must be greater than the terminal growth rate, or the terminal value is undefined (division by a non-positive number). Raise WACC or lower terminal growth.</div>`;
+    return;
+  }
+  if(!price||!shares||!revenue0){
+    resultEl.innerHTML=`<div class="dcf-error">Enter a stock price, shares outstanding, and current revenue to run the model.</div>`;
+    return;
+  }
+  const targetEV = price*shares + netDebt;
+  let lo=-0.5, hi=3.0;
+  for(let i=0;i<100;i++){
+    const mid=(lo+hi)/2;
+    const {ev}=dcfForwardValue(mid, revenue0, m0, mT, wacc, termGrowth, years);
+    if(ev<targetEV) lo=mid; else hi=mid;
+  }
+  const impliedG=(lo+hi)/2;
+  const {fcfN}=dcfForwardValue(impliedG, revenue0, m0, mT, wacc, termGrowth, years);
+
+  let tier="mild", label="Modest \u2014 in line with mature, low-growth businesses";
+  if(impliedG>0.10 && impliedG<=0.20){ tier="moderate"; label="Meaningful \u2014 consistent with a durable, above-market grower"; }
+  else if(impliedG>0.20){ tier="steep"; label="Aggressive \u2014 the price only works if growth stays exceptional for the full forecast window"; }
+
+  const fmtM=v=>{
+    const av=Math.abs(v);
+    if(av>=1000000) return "$"+(v/1000000).toFixed(2)+"T";
+    if(av>=1000) return "$"+(v/1000).toFixed(1)+"B";
+    return "$"+Math.round(v).toLocaleString()+"M";
+  };
+  let rows="";
+  let rev=revenue0;
+  for(let t=1;t<=years;t++){
+    rev=rev*(1+impliedG);
+    const margin=m0+(mT-m0)*(t/years);
+    const fcf=rev*margin;
+    rows+=`<tr><td>Year ${t}</td><td>${fmtM(rev)}</td><td>${(margin*100).toFixed(1)}%</td><td>${fmtM(fcf)}</td></tr>`;
+  }
+
+  resultEl.innerHTML=`
+    <div class="dcf-headline">
+      <div class="dcf-headline-label">Implied ${years}-Year Revenue CAGR</div>
+      <div class="dcf-headline-val">${(impliedG*100).toFixed(1)}%</div>
+      <div class="dcf-headline-sub">At ${price>=1?"$"+price.toLocaleString():price}/share (implied enterprise value of ${fmtM(targetEV)}), the market is underwriting revenue compounding at this rate for ${years} years, with FCF margin moving from ${(m0*100).toFixed(1)}% to ${(mT*100).toFixed(1)}%, discounted at ${(wacc*100).toFixed(1)}% WACC with ${(termGrowth*100).toFixed(1)}% terminal growth.</div>
+    </div>
+    <div class="dcf-context ${tier}">${label}. Compare this to the company's own historical revenue growth &mdash; if actual growth has consistently run below this number, the market is pricing in an improvement that hasn't shown up in the results yet.</div>
+    ${noteOverride?`<div class="report-note" style="margin-top:10px">${noteOverride}</div>`:""}
+    <table class="dcf-table">
+      <thead><tr><th>Period</th><th>Revenue</th><th>FCF Margin</th><th>Free Cash Flow</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
 function renderReports(){
   const list=document.getElementById("reportList");
   if(!list)return;
@@ -947,6 +1099,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   renderGrid();
   renderRealized();
   renderReports();
+  loadDCFPreset("NVDA");
   
   const searchInput=document.getElementById("searchInput");
   if(searchInput)searchInput.addEventListener("input",e=>{FILTER.q=e.target.value;renderGrid();});
