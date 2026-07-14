@@ -205,6 +205,14 @@ body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMac
 .f-select{padding:9px 10px;font-size:10px;border:1px solid #DDD8CF;border-radius:8px;background:#FFFFFF;color:#374151;font-family:"Inter",sans-serif;cursor:pointer}
 .filter-count{max-width:980px;margin:0 auto;padding:0 32px 10px;font-size:9px;color:#9CA3AF;letter-spacing:.04em}
 .no-results{max-width:980px;margin:0 auto;padding:20px 32px;font-size:11px;color:#9CA3AF;text-align:center}
+.group-hdr{max-width:980px;margin:26px auto 12px;padding:0 32px;font-size:13px;font-weight:700;color:#1B2A4A;font-family:"Playfair Display",serif;display:flex;align-items:baseline;gap:10px}
+.group-hdr-note{font-size:9px;font-weight:400;color:#B8934A;font-family:"Inter",sans-serif;letter-spacing:.02em}
+.low-conv-hdr{color:#8A8378}
+.card.research-coverage{border-top:3px solid #C4A44A;box-shadow:0 1px 4px rgba(196,164,74,0.18)}
+.card.research-coverage .sbadge{background:#FBF3DE;color:#8A6D1E;border:1px solid #E9D6A0}
+.research-tag{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.05em;color:#8A6D1E;background:#FBF3DE;border:1px solid #E9D6A0;border-radius:10px;padding:2px 8px;text-transform:uppercase;margin-left:6px}
+.card.low-conviction{opacity:.82}
+.card.low-conviction .sbadge{background:#F3F1EC;color:#8A8378;border:1px solid #E0DBCF}
 
 /* COMPOSITION DONUT */
 .comp-toggle{display:flex;gap:6px;margin-bottom:14px}
@@ -367,7 +375,7 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
     <div class="eyebrow">Investment Research Portfolio</div>
     <h1 class="hero-name">Sam Tianli Dong</h1>
     <div class="hero-title">MBA &amp; Master of Finance &nbsp;&middot;&nbsp; Schulich School of Business &nbsp;&middot;&nbsp; CFA Level I Candidate &nbsp;&middot;&nbsp; Toronto</div>
-    <p class="hero-desc">Independent bottom-up equity research across global equities. Mathematical background applied to fundamental business analysis &mdash; unit economics, business model quality, and the gap between price and intrinsic value.</p>
+    <p class="hero-desc">I combine systematic quantitative screening with fundamental research to identify high-quality businesses whose long-term cash-flow potential is mispriced by short-term market expectations.</p>
     <div class="hero-tags">
       <span class="tag">Fundamental Research</span>
       <span class="tag">Python &middot; Quantitative</span>
@@ -377,7 +385,7 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
     </div>
     <div class="hero-stats">
       <div><div class="stat-n">60</div><div class="stat-l">Companies Covered</div></div>
-      <div><div class="stat-n">43</div><div class="stat-l">Active Holdings</div></div>
+      <div><div class="stat-n">34</div><div class="stat-l">Active Holdings</div></div>
       <div><div class="stat-n">20</div><div class="stat-l">Realized Positions</div></div>
       <div><div class="stat-n">8</div><div class="stat-l">Markets</div></div>
     </div>
@@ -398,7 +406,7 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
   </div>
 
   <section id="coverage">
-    <div class="section-hdr"><h2>Active Holdings</h2><span>43 positions &middot; $6,000 initial + $1,500/yr</span></div>
+    <div class="section-hdr"><h2>Active Holdings</h2><span>34 positions &middot; $6,000 initial + $1,500/yr &middot; +9 low conviction ideas below</span></div>
     <div class="filter-bar">
       <input type="text" id="searchInput" class="f-input" placeholder="Search ticker or company name&hellip;">
       <select id="sectorFilter" class="f-select"><option value="all">All Sectors</option></select>
@@ -413,7 +421,10 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
       </select>
     </div>
     <div class="filter-count" id="filterCount"></div>
+    <h3 class="group-hdr">Current Portfolio <span class="group-hdr-note">Research Coverage positions highlighted in gold</span></h3>
     <div class="grid" id="grid"></div>
+    <h3 class="group-hdr low-conv-hdr">Low Conviction Ideas</h3>
+    <div class="grid" id="gridLowConv"></div>
   </section>
 </div>
 
@@ -426,7 +437,7 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
 
     <div class="dcf-tool">
       <h3 class="manifesto-sub" style="margin-top:0">Reverse DCF &amp; Expectations Analysis</h3>
-      <p>Professional investors spend most of their time asking one question: <b>what does today's price already assume?</b> Instead of forecasting cash flows to arrive at a value, this flips the DCF around &mdash; it takes the current market price as given and solves backward for the revenue growth rate the market must be underwriting, given a margin path, discount rate, and terminal growth assumption.</p>
+      <p>Professional investors spend most of their time asking one question: <b>what does today's price already assume?</b> This flips the DCF around &mdash; the market price is taken as given, and the model solves backward for the revenue growth the market must be underwriting.</p>
       <div class="dcf-presets">
         <button class="dcf-preset-btn on" data-preset="custom" onclick="loadDCFPreset('custom')">Custom</button>
         <button class="dcf-preset-btn" data-preset="NVDA" onclick="loadDCFPreset('NVDA')">NVDA</button>
@@ -816,6 +827,9 @@ function scenarioRow(s){
   </div>`;
 }
 
+const RESEARCH_COVERAGE=new Set(["PLMR","6098.T","300750","WINA","GNTX","AXP","NFLX","ATZ","8031.T"]);
+const LOW_CONVICTION=new Set(["LMT","SWK","1810.HK","PLNT","TTWO","1299.HK","KNSL","OR.PA","MCD"]);
+
 function card(s){
   const id="sp_"+(s.t+"_"+s.x).replace(/[^a-zA-Z0-9]/g,"_");
   const r=cr(s.series); const pos=r>=0; const rc=pos?"#166534":"#9B1C1C";
@@ -825,13 +839,19 @@ function card(s){
   let partialNote='';
   if(s.partialExit) partialNote+=`<div style="font-size:8px;color:#8B6914;font-weight:600;margin-top:2px">${(s.partialExit.frac*100).toFixed(0)}% closed ${TIMELINE[s.partialExit.idx]} @ ${s.s}${s.partialExit.price}</div>`;
   if(s.partialExits) s.partialExits.forEach(pe=>{partialNote+=`<div style="font-size:8px;color:#8B6914;font-weight:600;margin-top:2px">${(pe.frac*100).toFixed(0)}% closed ${TIMELINE[pe.idx]} @ ${s.s}${pe.price}</div>`;});
-  return`<div class="card" style="border-top:3px solid ${s.mo?'#C4A44A':s.col}" onclick="openMod('${s.t}')">
+  const isResearch=RESEARCH_COVERAGE.has(s.t);
+  const isLowConv=LOW_CONVICTION.has(s.t);
+  const groupClass=isResearch?" research-coverage":(isLowConv?" low-conviction":"");
+  const borderColor=isResearch?"#C4A44A":s.col;
+  const researchTag=isResearch?'<span class="research-tag">Research Coverage</span>':"";
+  return`<div class="card${groupClass}" style="border-top:3px solid ${borderColor}" onclick="openMod('${s.t}')">
   <div class="card-top">
     <div>
       <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px">
         <span style="font-size:13px">${s.f}</span>
         <span class="tkr" style="color:${s.col}">${s.t}</span>
         <span class="xbadge">${s.x}</span>
+        ${researchTag}
       </div>
       <div class="cname">${s.n}</div>
     </div>
@@ -959,24 +979,34 @@ function renderGrid(){
     case "entry_old": list.sort((a,b)=>a.entry-b.entry); break;
     case "ticker": list.sort((a,b)=>a.t.localeCompare(b.t)); break;
   }
+  const mainList=list.filter(s=>!LOW_CONVICTION.has(s.t));
+  const lowConvList=list.filter(s=>LOW_CONVICTION.has(s.t));
+
   const grid=document.getElementById("grid");
-  if(list.length===0){
-    grid.innerHTML=`<div style="grid-column:1/-1" class="no-results">No active holdings match the selected filters.</div>`;
+  if(mainList.length===0){
+    grid.innerHTML=`<div style="grid-column:1/-1" class="no-results">No current portfolio holdings match the selected filters.</div>`;
   }else{
-    grid.innerHTML=list.map(card).join("");
-    list.forEach(spark);
+    grid.innerHTML=mainList.map(card).join("");
+    mainList.forEach(spark);
   }
-  document.getElementById("filterCount").textContent=`Showing ${list.length} of ${allActive.length} active positions`;
+  const gridLC=document.getElementById("gridLowConv");
+  if(lowConvList.length===0){
+    gridLC.innerHTML=`<div style="grid-column:1/-1" class="no-results">No low conviction ideas match the selected filters.</div>`;
+  }else{
+    gridLC.innerHTML=lowConvList.map(card).join("");
+    lowConvList.forEach(spark);
+  }
+  document.getElementById("filterCount").textContent=`Showing ${mainList.length} of 34 current portfolio holdings, plus ${lowConvList.length} of 9 low conviction ideas`;
 }
 
 /* ---- Reverse DCF & Expectations Analysis Tool ---- */
 const DCF_PRESETS={
-  NVDA:{price:197, shares:24300, netDebt:-25000, revenue:130500, margin0:45, termMargin:40, wacc:9, termGrowth:3, years:10,
-        note:"NVIDIA figures are illustrative approximations (FY2025 revenue ~$130.5B, high current FCF margin from the AI compute cycle). Terminal margin assumed to compress toward 40% as competition intensifies."},
-  COST:{price:980, shares:443, netDebt:6000, revenue:275000, margin0:2.5, termMargin:3.0, wacc:8, termGrowth:3, years:10,
-        note:"Costco figures are illustrative approximations (~$275B TTM revenue, thin ~2.5% FCF margin typical of low-markup membership retail)."},
-  AAPL:{price:313, shares:15000, netDebt:0, revenue:416000, margin0:26, termMargin:27, wacc:8.5, termGrowth:3, years:10,
-        note:"Apple figures are illustrative approximations (FY2025 revenue ~$416B, ~26% FCF margin, roughly balanced net debt/cash position)."},
+  NVDA:{price:197, shares:24300, netDebt:-3100, revenue:215900, margin0:44.8, termMargin:40, wacc:9, termGrowth:3, years:10,
+        note:"NVIDIA figures verified from FY2026 10-K/10-Q filings: revenue $215.9B, FCF $96.7B (44.8% margin), 24.30B shares, net cash position of ~$3.1B. Terminal margin assumed to compress toward 40% as competition intensifies."},
+  COST:{price:980, shares:443, netDebt:-7100, revenue:275240, margin0:2.85, termMargin:3.0, wacc:8, termGrowth:3, years:10,
+        note:"Costco figures verified from FY2025 10-K: revenue $275.24B, FCF $7.84B (2.85% margin), 443.2M shares, net cash position of ~$7.1B (cash & investments of $15.3B against ~$8.2B total debt)."},
+  AAPL:{price:313, shares:14773, netDebt:0, revenue:416000, margin0:23.7, termMargin:25, wacc:8.5, termGrowth:3, years:10,
+        note:"Apple figures verified from FY2025 10-K: revenue ~$416B, FCF $98.8B (23.7% margin), 14.77B shares outstanding. Net debt held near zero, a simplification of a balance sheet that nets close to neutral."},
   custom:{price:100, shares:1000, netDebt:0, revenue:10000, margin0:15, termMargin:18, wacc:9, termGrowth:2.5, years:10,
         note:"Enter your own assumptions for any company."}
 };
