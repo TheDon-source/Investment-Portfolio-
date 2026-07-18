@@ -160,6 +160,16 @@ body{background:#EDE8E1;color:#1A1A2E;font-family:"Inter",-apple-system,BlinkMac
 .report-dl{font-size:9px;font-weight:700;letter-spacing:.06em;padding:7px 14px;border-radius:20px;background:#1B2A4A;color:#F5F0E8;text-decoration:none;white-space:nowrap;transition:background .15s;flex-shrink:0}
 .report-dl:hover{background:#8B6914}
 .report-note{font-size:9px;color:#9CA3AF;margin-top:16px;line-height:1.6}
+.quant-model-card{display:flex;gap:16px;padding:16px;background:#FFFFFF;border:1px solid #DDD8CF;border-radius:10px;flex-wrap:wrap;margin-bottom:14px;transition:border-color .15s}
+.quant-model-card:hover{border-color:#C4A44A}
+.quant-model-thumb{width:230px;height:145px;object-fit:cover;object-position:top;border-radius:6px;border:1px solid #E5E0D6;flex-shrink:0;background:#0F1923;cursor:pointer}
+.quant-model-body{flex:1;min-width:240px}
+.quant-model-title{font-size:12px;font-weight:700;color:#374151;margin-bottom:5px}
+.quant-model-desc{font-size:10px;color:#6B7280;line-height:1.65;margin-bottom:9px}
+.quant-model-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+.quant-model-stat{font-size:8px;font-weight:700;letter-spacing:.03em;color:#8B6914;background:#FBF3DE;border:1px solid #E9D6A0;border-radius:10px;padding:3px 9px;white-space:nowrap}
+.quant-model-actions{display:flex;gap:8px;flex-wrap:wrap}
+.quant-model-actions .report-dl{padding:6px 13px;font-size:8px}
 .dcf-tool{margin-top:24px;padding-top:24px;border-top:1px solid #E5E0D6}
 .dcf-presets{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
 .dcf-preset-btn{font-size:9px;font-weight:700;letter-spacing:.06em;padding:6px 14px;border-radius:20px;border:1px solid #DDD8CF;background:#FFFFFF;color:#9CA3AF;cursor:pointer;text-transform:uppercase;transition:all .15s}
@@ -355,20 +365,64 @@ footer{background:#1B2A4A;padding:24px 32px;text-align:center}
       <div class="dcf-result" id="dcfResult"></div>
     </div>
 
-    <h3 class="manifesto-sub">Other Models</h3>
-    <div class="report-list" id="quantModelList">
-      <div class="empty-placeholder">No additional models published yet. Monte Carlo simulations, MACD/technical overlays, and other quantitative work will appear here.</div>
-    </div>
-    <!-- Template for future entries:
-    <div class="report-row">
-      <div class="report-icon">📈</div>
-      <div class="report-info">
-        <div class="report-title">Monte Carlo Simulation &mdash; NVDA</div>
-        <div class="report-meta">Quant Model &middot; 10,000 paths &middot; Updated Jul 2026</div>
+    <h3 class="manifesto-sub">Risk &amp; Simulation Models</h3>
+    <p>Monte Carlo work built for counterparty and market risk applications &mdash; exposure simulation, factor-based VaR with regime switching, and marginal risk attribution.</p>
+
+    <div class="quant-model-card">
+      <img class="quant-model-thumb" src="models/pfe_ee_irs.png" alt="PFE/EE exposure profile chart" onclick="window.open('models/pfe_ee_irs.png','_blank')">
+      <div class="quant-model-body">
+        <div class="quant-model-title">Potential Future Exposure &amp; Expected Exposure &mdash; 5Y USD Interest Rate Swap</div>
+        <div class="quant-model-desc">Vasicek short-rate Monte Carlo (50,000 paths, exact-transition simulation, monthly exposure grid) marking a payer swap to market at every future date via closed-form zero-coupon bond pricing. Derives the full PFE(95%/99%) and EE profile over the trade's life, plus EPE and Basel-style EEPE.</div>
+        <div class="quant-model-stats">
+          <span class="quant-model-stat">Max PFE 95%: $1.39M @ 1.58y</span>
+          <span class="quant-model-stat">EPE: $144K</span>
+          <span class="quant-model-stat">EEPE: $261K</span>
+          <span class="quant-model-stat">50,000 paths</span>
+        </div>
+        <div class="quant-model-actions">
+          <a class="report-dl" href="models/pfe_ee_irs.py" download>DOWNLOAD .PY</a>
+          <a class="report-dl" href="models/pfe_ee_irs.png" download>DOWNLOAD CHART</a>
+        </div>
       </div>
-      <a class="report-dl" href="models/nvda_monte_carlo.pdf" download>DOWNLOAD</a>
     </div>
-    -->
+
+    <div class="quant-model-card">
+      <img class="quant-model-thumb" src="models/catl_var.png" alt="CATL Monte Carlo VaR chart" onclick="window.open('models/catl_var.png','_blank')">
+      <div class="quant-model-body">
+        <div class="quant-model-title">Multivariate Monte Carlo VaR &mdash; CATL (300750.SZ)</div>
+        <div class="quant-model-desc">100,000-path simulation across four correlated risk factors (lithium, cobalt, oil, US-China tariff risk) with regime-switching correlation (80% normal / 20% stress) and Student-t fat tails. Outputs VaR and CVaR at 95%/99% across 3M/6M/12M horizons, with marginal VaR attribution by factor.</div>
+        <div class="quant-model-stats">
+          <span class="quant-model-stat">12M VaR 95%: -4.0%</span>
+          <span class="quant-model-stat">12M CVaR 95%: -6.1%</span>
+          <span class="quant-model-stat">Lithium: 60.7% of VaR</span>
+          <span class="quant-model-stat">100,000 paths</span>
+        </div>
+        <div class="quant-model-actions">
+          <a class="report-dl" href="models/catl_var.py" download>DOWNLOAD .PY</a>
+          <a class="report-dl" href="models/catl_var.png" download>DOWNLOAD CHART</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="quant-model-card">
+      <img class="quant-model-thumb" src="models/recruit_var.png" alt="Recruit Holdings Monte Carlo VaR chart" onclick="window.open('models/recruit_var.png','_blank')">
+      <div class="quant-model-body">
+        <div class="quant-model-title">Multivariate Monte Carlo VaR &mdash; Recruit Holdings (6098.T)</div>
+        <div class="quant-model-desc">Same regime-switching, fat-tailed Monte Carlo framework applied to Recruit, factored on USD/JPY, US labor market conditions, AI disruption risk to staffing, and Japan SaaS multiples. VaR/CVaR across three horizons with marginal attribution by factor.</div>
+        <div class="quant-model-stats">
+          <span class="quant-model-stat">12M VaR 95%: -8.6%</span>
+          <span class="quant-model-stat">12M CVaR 95%: -10.4%</span>
+          <span class="quant-model-stat">US Labor: 48.8% of VaR</span>
+          <span class="quant-model-stat">100,000 paths</span>
+        </div>
+        <div class="quant-model-actions">
+          <a class="report-dl" href="models/recruit_var.py" download>DOWNLOAD .PY</a>
+          <a class="report-dl" href="models/recruit_var.png" download>DOWNLOAD CHART</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="report-note">Charts render directly from <code>/models</code> alongside this page &mdash; click any thumbnail to view full-size, or download the source .py to run the simulation yourself.</p>
   </section>
 </div>
 
